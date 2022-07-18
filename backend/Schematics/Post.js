@@ -5,6 +5,7 @@ const PostSchema = new mongoose.Schema({
   body: { type: String, required: true },
   user: { type: String, required: true },
   added: { type: String, required: true },
+  comments: { type: Array, required: false },
 });
 
 module.exports = mongoose.model("Post", PostSchema);

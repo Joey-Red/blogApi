@@ -30,8 +30,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet());
 app.use(session({ secret: "dogs", resave: false, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 app.use(compression());
 
 app.use(function (req, res, next) {
