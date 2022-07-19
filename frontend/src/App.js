@@ -17,6 +17,12 @@ function App() {
   const [commentBody, setCommentBody] = useState("");
   const [commentName, setCommentName] = useState("");
   const [postsLoaded, setPostsLoaded] = useState(false);
+  const [publishStatus, setPublishStatus] = useState(false);
+  useEffect(() => {
+    if (localStorage.getItem("user") !== null) {
+      setCurrentUser(localStorage.getItem("user"));
+    }
+  }, []);
 
   // Fetch Posts
   useEffect(() => {
@@ -26,15 +32,14 @@ function App() {
       if (localStorage.getItem("user").length > 0) {
         setCurrentUser(localStorage.getItem("user"));
       }
-      console.log(localStorage.getItem("user"));
     });
   }, []);
   // Fetch Users
-  useEffect(() => {
-    Axios.get("http://localhost:8080/getUsers").then((res) => {
-      setListOfUsers(res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   Axios.get("http://localhost:8080/getUsers").then((res) => {
+  //     setListOfUsers(res.data);
+  //   });
+  // }, []);
 
   // Log In
   const logIn = () => {
@@ -61,6 +66,7 @@ function App() {
         postTitle: postTitle,
         postBody: postBody,
         username: currentUser,
+        publishStatus: publishStatus,
       },
       { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
     ).then((res) => {
@@ -99,165 +105,186 @@ function App() {
       username: currentUser,
     });
   };
+
+  const handleChange = (e) => {
+    setPublishStatus(e.target.checked);
+  };
   return (
     <div className="App">
-      {currentUser.length > 0 ? (
+      <>
+        {currentUser.length > 0 ? (
+          <div>
+            <div>Logged In as {currentUser}</div>
+            <a href="/adminPage">Admin Page</a>
+            <button onClick={logOut}>Log Out</button>
+          </div>
+        ) : (
+          <>
+            <div className="h1">Sign Up</div>
+            <div className="createUser">
+              <input
+                type="text"
+                placeholder="username"
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
+              />
+              <input
+                type="password"
+                placeholder="password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+              <input
+                type="password"
+                placeholder="confirm password"
+                onChange={(e) => {
+                  setPasswordConfirm(e.target.value);
+                }}
+              />
+              <button onClick={createUser}>Submit</button>
+            </div>
+
+            <div className="logIn">
+              <div className="h1">Log In</div>
+              <input
+                type="text"
+                placeholder="username"
+                onChange={(e) => {
+                  setLogInUsername(e.target.value);
+                }}
+              />
+              <input
+                type="password"
+                placeholder="password"
+                onChange={(e) => {
+                  setLogInPw(e.target.value);
+                }}
+              />
+              <input
+                type="password"
+                placeholder="confirm password"
+                onChange={(e) => {
+                  setLogInPwConfirm(e.target.value);
+                }}
+              />
+              <button onClick={logIn}>Submit</button>
+            </div>
+          </>
+        )}
+        {currentUser.length > 0 ? (
+          <div className="createPost">
+            <div className="h1">Create Post</div>
+            <input
+              type="text"
+              placeholder="title"
+              onChange={(e) => {
+                setPostTitle(e.target.value);
+              }}
+            />
+            <input
+              type="text"
+              placeholder="so this one time.."
+              onChange={(e) => {
+                setPostBody(e.target.value);
+              }}
+            />
+            <label htmlFor="publish">Publish</label>
+            <input
+              type="checkbox"
+              name="publish"
+              id="publish"
+              checked={publishStatus}
+              onChange={handleChange}
+            />
+            <button onClick={submitPost}>Submit</button>
+          </div>
+        ) : (
+          <></>
+        )}
         <div>
-          <div>Logged In as {currentUser}</div>
-          <button onClick={logOut}>Log Out</button>
-        </div>
-      ) : (
-        <></>
-      )}
-      <div className="h1">Sign Up</div>
-      <div className="createUser">
-        <input
-          type="text"
-          placeholder="username"
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-        />
-        <input
-          type="password"
-          placeholder="password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
-        <input
-          type="password"
-          placeholder="confirm password"
-          onChange={(e) => {
-            setPasswordConfirm(e.target.value);
-          }}
-        />
-        <button onClick={createUser}>Submit</button>
-      </div>
-      <div className="logIn">
-        <div className="h1">Log In</div>
-        <input
-          type="text"
-          placeholder="username"
-          onChange={(e) => {
-            setLogInUsername(e.target.value);
-          }}
-        />
-        <input
-          type="password"
-          placeholder="password"
-          onChange={(e) => {
-            setLogInPw(e.target.value);
-          }}
-        />
-        <input
-          type="password"
-          placeholder="confirm password"
-          onChange={(e) => {
-            setLogInPwConfirm(e.target.value);
-          }}
-        />
-        <button onClick={logIn}>Submit</button>
-      </div>
-      <div className="createPost">
-        <div className="h1">Create Post</div>
-        <input
-          type="text"
-          placeholder="title"
-          onChange={(e) => {
-            setPostTitle(e.target.value);
-          }}
-        />
-        <input
-          type="text"
-          placeholder="so this one time.."
-          onChange={(e) => {
-            setPostBody(e.target.value);
-          }}
-        />
-        <button onClick={submitPost}>Submit</button>
-      </div>
-      <div>
-        {listOfPosts.map((post) => {
-          return (
-            <div key={post._id}>
-              Username: {post.user} Title: {post.title}
-              Body: {post.body}
-              {currentUser.length > 0 && post.user === currentUser ? (
-                <div className="editPost">
-                  <button onClick={deletePost} value={post._id}>
-                    X
-                  </button>
-                  <div className="h1">Edit Post Form</div>
+          {listOfPosts.map((post) => {
+            return (
+              <div key={post._id}>
+                Username: {post.user} Title: {post.title}
+                Body: {post.body}
+                {currentUser.length > 0 && post.user === currentUser ? (
+                  <div className="editPost">
+                    <button onClick={deletePost} value={post._id}>
+                      X
+                    </button>
+                    <div className="h1">Edit Post Form</div>
+                    <input
+                      type="text"
+                      placeholder="title"
+                      onChange={(e) => {
+                        setPostTitle(e.target.value);
+                      }}
+                    />
+                    <input
+                      type="text"
+                      placeholder="so this one time.."
+                      onChange={(e) => {
+                        setPostBody(e.target.value);
+                      }}
+                    />
+                    <button onClick={editPost} value={post._id}>
+                      EDIT
+                    </button>
+                  </div>
+                ) : null}
+                <div>
+                  {postsLoaded && post.comments.length > 0 ? (
+                    post.comments.map((comments) => {
+                      return (
+                        <div>
+                          <div>Title: {comments.title}</div>
+                          <div>Body: {comments.body}</div>
+                          <div>Username: {comments.username}</div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <>No Replies? Add a comment</>
+                  )}
+                </div>
+                <div className="addComment">
                   <input
                     type="text"
-                    placeholder="title"
+                    placeholder="title (optional) "
                     onChange={(e) => {
-                      setPostTitle(e.target.value);
+                      setCommentTitle(e.target.value);
                     }}
                   />
                   <input
                     type="text"
-                    placeholder="so this one time.."
+                    placeholder="share your thoughts"
                     onChange={(e) => {
-                      setPostBody(e.target.value);
+                      setCommentBody(e.target.value);
                     }}
                   />
-                  <button onClick={editPost} value={post._id}>
-                    EDIT
+                  <input
+                    type="text"
+                    placeholder="name (optional)"
+                    onChange={(e) => {
+                      setCommentName(e.target.value);
+                    }}
+                  />
+                  <button onClick={addComment} value={post._id}>
+                    Submit Comment
                   </button>
                 </div>
-              ) : null}
-              <div>
-                {postsLoaded && post.comments.length > 0 ? (
-                  post.comments.map((comments) => {
-                    return (
-                      <div>
-                        <div>Title: {comments.title}</div>
-                        <div>Body: {comments.body}</div>
-                        <div>Username: {comments.username}</div>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <>No Replies</>
-                )}
               </div>
-              <div className="addComment">
-                <input
-                  type="text"
-                  placeholder="title (optional) "
-                  onChange={(e) => {
-                    setCommentTitle(e.target.value);
-                  }}
-                />
-                <input
-                  type="text"
-                  placeholder="share your thoughts"
-                  onChange={(e) => {
-                    setCommentBody(e.target.value);
-                  }}
-                />
-                <input
-                  type="text"
-                  placeholder="name (optional)"
-                  onChange={(e) => {
-                    setCommentName(e.target.value);
-                  }}
-                />
-                <button onClick={addComment} value={post._id}>
-                  Submit Comment
-                </button>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      {/* <div>
+            );
+          })}
+        </div>
+        {/* <div>
         {listOfUsers.map((user) => {
           return <div key={user._id}>Username: {user.username}</div>;
         })}
       </div> */}
+      </>
     </div>
   );
 }

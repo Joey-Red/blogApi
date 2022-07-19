@@ -83,6 +83,7 @@ router.post("/create-post", verifyToken, (req, res, next) => {
         title: req.body.postTitle,
         body: req.body.postBody,
         user: req.body.username,
+        publish: req.body.publishStatus,
         added: new Date(),
       }).save((err) => {
         if (err) {
@@ -115,7 +116,32 @@ router.post("/comment", (req, res, next) => {
     }
   );
 });
-
+// Set Post to Publish
+router.post("/publishPost", (req, res, next) => {
+  Post.findOneAndUpdate(
+    { _id: req.body.postId },
+    {
+      publish: true,
+    },
+    // { upsert: true },
+    function (err, docs) {
+      res.json(docs);
+    }
+  );
+});
+// Set Post to UNPublish
+router.post("/unpublishPost", (req, res, next) => {
+  Post.findOneAndUpdate(
+    { _id: req.body.postId },
+    {
+      publish: false,
+    },
+    // { upsert: true },
+    function (err, docs) {
+      res.json(docs);
+    }
+  );
+});
 // Sign Up to comment || Comment as Anon?
 router.post("/sign-up", async (req, res, next) => {
   bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
@@ -235,6 +261,7 @@ router.post("/log-in", function (req, res, next) {
       const token = jwt.sign({ user }, process.env.SECRET_KEY, {
         expiresIn: "1200s",
       });
+      // console.log(token);
       return res.json({ user, token });
     });
   })(req, res);
@@ -260,11 +287,42 @@ function verifyToken(req, res, next) {
   }
 }
 router.get("/getPosts", (req, res) => {
-  Post.find({}, (err, result) => {
+  Post.find({ publish: true }, (err, result) => {
     if (err) {
       res.json(err);
     }
     res.json(result);
+  });
+});
+router.get("/adminPosts", verifyToken, (req, res) => {
+  console.log(req.token);
+  jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
+    if (err) {
+      // res.json(403); <-- Crashes app
+      console.log(err);
+    }
+    //  publish: false if you want only false inside {}
+    Post.find({ publish: false }, (err, result) => {
+      if (err) {
+        res.json(err);
+      }
+      res.json(result);
+    });
+  });
+});
+router.get("/adminPostsPublished", verifyToken, (req, res) => {
+  console.log(req.token);
+  jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
+    if (err) {
+      // res.json(403); <-- Crashes app
+      console.log(err);
+    }
+    Post.find({ publish: true }, (err, result) => {
+      if (err) {
+        res.json(err);
+      }
+      res.json(result);
+    });
   });
 });
 router.get("/getUsers", (req, res) => {
@@ -284,7 +342,7 @@ router.get("/getReplies", (req, res) => {
   });
 });
 router.get("/", function (req, res) {
-  res.send("Hello world");
+  // res.send("Hello world");
 });
 
 module.exports = router;

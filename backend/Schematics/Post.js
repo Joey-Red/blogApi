@@ -6,6 +6,7 @@ const PostSchema = new mongoose.Schema({
   user: { type: String, required: true },
   added: { type: String, required: true },
   comments: { type: Array, required: false },
+  publish: { type: Boolean, required: true },
 });
 
 module.exports = mongoose.model("Post", PostSchema);
