@@ -295,7 +295,6 @@ router.get("/getPosts", (req, res) => {
   });
 });
 router.get("/adminPosts", verifyToken, (req, res) => {
-  console.log(req.token);
   jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
     if (err) {
       // res.json(403); <-- Crashes app
@@ -311,7 +310,6 @@ router.get("/adminPosts", verifyToken, (req, res) => {
   });
 });
 router.get("/adminPostsPublished", verifyToken, (req, res) => {
-  console.log(req.token);
   jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
     if (err) {
       // res.json(403); <-- Crashes app

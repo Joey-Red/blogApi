@@ -1,0 +1,133 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.navUnder {
+  height: 68px;
+}
+
+.navContainer {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  font-size: 1rem;
+  color: #030c1d;
+  font-weight: bold;
+  position: fixed;
+  width: 100%;
+  justify-content: space-evenly;
+  background-color: #dcebee;
+  opacity: 0.8;
+  color: #030c1d;
+  height: 60px;
+  box-shadow: 0px 1px 4px 1px #030c1d;
+}
+.navContainer .currentUser {
+  font-size: 1rem;
+  color: #030c1d;
+  font-weight: bold;
+}
+.navContainer .navLink,
+.navContainer .navLink:visited {
+  font-size: 1rem;
+  color: #030c1d;
+  font-weight: bold;
+  text-decoration: none;
+}
+.navContainer button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #030c1d;
+  font-weight: bold;
+}
+.navContainer button:hover {
+  cursor: pointer;
+}
+.navContainer .fishImage {
+  position: absolute;
+  -webkit-animation: swim infinite 8s normal ease-in-out;
+          animation: swim infinite 8s normal ease-in-out;
+  max-height: 30px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@-webkit-keyframes swim {
+  0% {
+    left: 0%;
+  }
+  49% {
+    left: 98%;
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(-1);
+  }
+  100% {
+    left: 0%;
+    transform: scaleX(-1);
+  }
+}
+
+@keyframes swim {
+  0% {
+    left: 0%;
+  }
+  49% {
+    left: 98%;
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(-1);
+  }
+  100% {
+    left: 0%;
+    transform: scaleX(-1);
+  }
+}
+.App {
+  background-color: #cfb094;
+  height: 300vh;
+}
+
+.createPost {
+  display: flex;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.createPostForm {
+  font-size: 1rem;
+  color: #030c1d;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-top: 20px;
+  border: solid #f65156 1px;
+  border-radius: 4px;
+  padding: 40px;
+  height: 400px;
+  width: 400px;
+}
+.createPostForm .createPostTitle {
+  font-size: 1.2rem;
+  color: #f65156;
+}
+.createPostForm .titleInput {
+  margin-bottom: 4px;
+}
+.createPostForm .bodyInput {
+  margin-bottom: 4px;
+}/*# sourceMappingURL=stylesheet.css.map */

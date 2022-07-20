@@ -8,9 +8,9 @@ Technologies Used:
 -React
 -Node
 
-Some Packages Used:
 -jsonwebtoken
 -bcrypt
 -passport
 -Axios
 -React Router
+-SASS

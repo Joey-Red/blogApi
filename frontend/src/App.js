@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import Navbar from "./Components/Navbar";
 
 function App() {
   const [listOfUsers, setListOfUsers] = useState([{}]);
@@ -53,10 +54,10 @@ function App() {
     });
   };
   //Log out
-  const logOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-  };
+  // const logOut = () => {
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("user");
+  // };
 
   // Submit Post
   const submitPost = () => {
@@ -112,93 +113,102 @@ function App() {
   return (
     <div className="App">
       <>
-        {currentUser.length > 0 ? (
-          <div>
-            <div>Logged In as {currentUser}</div>
-            <a href="/adminPage">Admin Page</a>
-            <button onClick={logOut}>Log Out</button>
-          </div>
-        ) : (
-          <>
-            <div className="h1">Sign Up</div>
-            <div className="createUser">
-              <input
-                type="text"
-                placeholder="username"
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-              />
-              <input
-                type="password"
-                placeholder="password"
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-              />
-              <input
-                type="password"
-                placeholder="confirm password"
-                onChange={(e) => {
-                  setPasswordConfirm(e.target.value);
-                }}
-              />
-              <button onClick={createUser}>Submit</button>
-            </div>
+        <Navbar currentUser={currentUser} />
+        <>
+          {currentUser.length === 0 ? (
+            <>
+              {/* <div className="h1">Sign Up</div>
+              <div className="createUser">
+                <input
+                  type="text"
+                  placeholder="username"
+                  onChange={(e) => {
+                    setUsername(e.target.value);
+                  }}
+                />
+                <input
+                  type="password"
+                  placeholder="password"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+                <input
+                  type="password"
+                  placeholder="confirm password"
+                  onChange={(e) => {
+                    setPasswordConfirm(e.target.value);
+                  }}
+                />
+                <button onClick={createUser}>Submit</button>
+              </div> */}
 
-            <div className="logIn">
-              <div className="h1">Log In</div>
-              <input
-                type="text"
-                placeholder="username"
-                onChange={(e) => {
-                  setLogInUsername(e.target.value);
-                }}
-              />
-              <input
-                type="password"
-                placeholder="password"
-                onChange={(e) => {
-                  setLogInPw(e.target.value);
-                }}
-              />
-              <input
-                type="password"
-                placeholder="confirm password"
-                onChange={(e) => {
-                  setLogInPwConfirm(e.target.value);
-                }}
-              />
-              <button onClick={logIn}>Submit</button>
-            </div>
-          </>
-        )}
+              <div className="logIn">
+                <div className="h1">Log In</div>
+                <input
+                  type="text"
+                  placeholder="username"
+                  onChange={(e) => {
+                    setLogInUsername(e.target.value);
+                  }}
+                />
+                <input
+                  type="password"
+                  placeholder="password"
+                  onChange={(e) => {
+                    setLogInPw(e.target.value);
+                  }}
+                />
+                <input
+                  type="password"
+                  placeholder="confirm password"
+                  onChange={(e) => {
+                    setLogInPwConfirm(e.target.value);
+                  }}
+                />
+                <button onClick={logIn}>Submit</button>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
+        </>
         {currentUser.length > 0 ? (
           <div className="createPost">
-            <div className="h1">Create Post</div>
-            <input
-              type="text"
-              placeholder="title"
-              onChange={(e) => {
-                setPostTitle(e.target.value);
-              }}
-            />
-            <input
-              type="text"
-              placeholder="so this one time.."
-              onChange={(e) => {
-                setPostBody(e.target.value);
-              }}
-            />
-            <label htmlFor="publish">Publish</label>
-            <input
-              type="checkbox"
-              name="publish"
-              id="publish"
-              checked={publishStatus}
-              onChange={handleChange}
-            />
-            <button onClick={submitPost}>Submit</button>
+            <form className="createPostForm">
+              <div className="createPostInner">
+                <div className="createPostTitle">Create Post</div>
+                <div className="titleInput">
+                  <input
+                    type="text"
+                    placeholder="Title"
+                    onChange={(e) => {
+                      setPostTitle(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="bodyInput">
+                  <input
+                    type="text"
+                    placeholder="So this one time.."
+                    onChange={(e) => {
+                      setPostBody(e.target.value);
+                    }}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="publish">Publish</label>
+                  <input
+                    type="checkbox"
+                    name="publish"
+                    id="publish"
+                    checked={publishStatus}
+                    onChange={handleChange}
+                  />
+                  <button onClick={submitPost}>Submit</button>
+                </div>
+              </div>
+            </form>
           </div>
         ) : (
           <></>
