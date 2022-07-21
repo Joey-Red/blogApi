@@ -1,0 +1,13 @@
+{currentUser ? (
+          <div>
+            <div className="currentUser">Joey Dalrymple {currentUser}</div>
+            <a href="/adminPage" className="navLink">
+              Admin Page
+            </a>
+            <button onClick={logOut}>Log Out</button>
+          </div>
+        ) : (
+          <>
+            <div>Fish's Blog</div>
+          </>
+        )}

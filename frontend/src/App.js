@@ -173,127 +173,130 @@ function App() {
             <></>
           )}
         </>
-        {currentUser.length > 0 ? (
-          <div className="createPost">
-            <form className="createPostForm">
-              <div className="createPostInner">
-                <div className="createPostTitle">Create Post</div>
-                <div className="titleInput">
-                  <input
-                    type="text"
-                    placeholder="Title"
-                    onChange={(e) => {
-                      setPostTitle(e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="bodyInput">
-                  <input
-                    type="text"
-                    placeholder="So this one time.."
-                    onChange={(e) => {
-                      setPostBody(e.target.value);
-                    }}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="publish">Publish</label>
-                  <input
-                    type="checkbox"
-                    name="publish"
-                    id="publish"
-                    checked={publishStatus}
-                    onChange={handleChange}
-                  />
-                  <button onClick={submitPost}>Submit</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        ) : (
-          <></>
-        )}
-        <div>
-          {listOfPosts.map((post) => {
-            return (
-              <div key={post._id}>
-                Username: {post.user} Title: {post.title}
-                Body: {post.body}
-                {currentUser.length > 0 && post.user === currentUser ? (
-                  <div className="editPost">
-                    <button onClick={deletePost} value={post._id}>
-                      X
-                    </button>
-                    <div className="h1">Edit Post Form</div>
+        <div className="layoutContainer">
+          <div className="postContainer">
+            {listOfPosts.map((post) => {
+              return (
+                <div key={post._id} className="blogPost">
+                  <div className="blogTitle">{post.title}</div>
+                  <div className="blogBody">{post.body}</div>
+                  <div className="blogUser">{post.user}</div>
+
+                  {/* {currentUser.length > 0 && post.user === currentUser ? (
+                    <div className="editPost">
+                      <button onClick={deletePost} value={post._id}>
+                        X
+                      </button>
+                      <div className="h1">Edit Post Form</div>
+                      <input
+                        type="text"
+                        placeholder="title"
+                        onChange={(e) => {
+                          setPostTitle(e.target.value);
+                        }}
+                      />
+                      <input
+                        type="text"
+                        placeholder="so this one time.."
+                        onChange={(e) => {
+                          setPostBody(e.target.value);
+                        }}
+                      />
+                      <button onClick={editPost} value={post._id}>
+                        EDIT
+                      </button>
+                    </div>
+                  ) : null} */}
+                  {/* <div>
+                    {postsLoaded && post.comments.length > 0 ? (
+                      post.comments.map((comments) => {
+                        return (
+                          <div>
+                            <div>Title: {comments.title}</div>
+                            <div>Body: {comments.body}</div>
+                            <div>Username: {comments.username}</div>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <>No Replies? Add a comment</>
+                    )}
+                  </div> */}
+                  {/* <div className="addComment">
                     <input
                       type="text"
-                      placeholder="title"
+                      placeholder="title (optional) "
+                      onChange={(e) => {
+                        setCommentTitle(e.target.value);
+                      }}
+                    />
+                    <input
+                      type="text"
+                      placeholder="share your thoughts"
+                      onChange={(e) => {
+                        setCommentBody(e.target.value);
+                      }}
+                    />
+                    <input
+                      type="text"
+                      placeholder="name (optional)"
+                      onChange={(e) => {
+                        setCommentName(e.target.value);
+                      }}
+                    />
+                    <button onClick={addComment} value={post._id}>
+                      Submit Comment
+                    </button>
+                  </div> */}
+                </div>
+              );
+            })}
+          </div>
+          {/* {currentUser.length > 0 ? (
+            <div className="createPost">
+              <form className="createPostForm">
+                <div className="createPostInner">
+                  <div className="createPostTitle">Create Post</div>
+                  <div className="titleInput">
+                    <input
+                      type="text"
+                      placeholder="Title"
                       onChange={(e) => {
                         setPostTitle(e.target.value);
                       }}
                     />
+                  </div>
+                  <div className="bodyInput">
                     <input
                       type="text"
-                      placeholder="so this one time.."
+                      placeholder="So this one time.."
                       onChange={(e) => {
                         setPostBody(e.target.value);
                       }}
                     />
-                    <button onClick={editPost} value={post._id}>
-                      EDIT
-                    </button>
                   </div>
-                ) : null}
-                <div>
-                  {postsLoaded && post.comments.length > 0 ? (
-                    post.comments.map((comments) => {
-                      return (
-                        <div>
-                          <div>Title: {comments.title}</div>
-                          <div>Body: {comments.body}</div>
-                          <div>Username: {comments.username}</div>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <>No Replies? Add a comment</>
-                  )}
+                  <div>
+                    <label htmlFor="publish">Publish</label>
+                    <input
+                      type="checkbox"
+                      name="publish"
+                      id="publish"
+                      checked={publishStatus}
+                      onChange={handleChange}
+                    />
+                    <button onClick={submitPost}>Submit</button>
+                  </div>
                 </div>
-                <div className="addComment">
-                  <input
-                    type="text"
-                    placeholder="title (optional) "
-                    onChange={(e) => {
-                      setCommentTitle(e.target.value);
-                    }}
-                  />
-                  <input
-                    type="text"
-                    placeholder="share your thoughts"
-                    onChange={(e) => {
-                      setCommentBody(e.target.value);
-                    }}
-                  />
-                  <input
-                    type="text"
-                    placeholder="name (optional)"
-                    onChange={(e) => {
-                      setCommentName(e.target.value);
-                    }}
-                  />
-                  <button onClick={addComment} value={post._id}>
-                    Submit Comment
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+              </form>
+            </div>
+          ) : (
+            <></>
+          )} */}
+          <footer className="footer">
+            You've reached the end of my posts for now. Please feel free to{" "}
+            <a href="/about">check me out!</a>
+          </footer>
         </div>
-        {/* <div>
-        {listOfUsers.map((user) => {
-          return <div key={user._id}>Username: {user.username}</div>;
-        })}
-      </div> */}
       </>
     </div>
   );
