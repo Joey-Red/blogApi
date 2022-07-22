@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import Navbar from "./Components/Navbar";
+import Fish from "./img/fishOutline.png";
 
 function App() {
   const [listOfUsers, setListOfUsers] = useState([{}]);
@@ -295,6 +296,7 @@ function App() {
           <footer className="footer">
             You've reached the end of my posts for now. Please feel free to{" "}
             <a href="/about">check me out!</a>
+            <img className="fishImage" src={Fish} alt="Fish" />
           </footer>
         </div>
       </>

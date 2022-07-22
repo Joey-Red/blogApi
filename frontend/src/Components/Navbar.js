@@ -1,5 +1,4 @@
 import React from "react";
-import Fish from "../img/fishOutline.png";
 import WorkPic from "../img/workPic.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
@@ -39,7 +38,6 @@ function Navbar(props) {
           </div>
           <div className="workPic"></div>
         </div>
-        <img className="fishImage" src={Fish} alt="Fish" />
       </div>
     </>
   );
