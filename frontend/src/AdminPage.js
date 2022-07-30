@@ -56,7 +56,7 @@ function AdminPage() {
             Body: {post.body}
             <div className="editPost">
               <button onClick={deletePost} value={post._id}>
-                X
+                Delete Post
               </button>
               <button onClick={publishPost} value={post._id}>
                 Publish!
@@ -107,7 +107,7 @@ function AdminPage() {
               Body: {post.body}
               <div className="editPost">
                 <button onClick={deletePost} value={post._id}>
-                  X
+                  Delete Post
                 </button>
                 <button onClick={unpublishPost} value={post._id}>
                   unPublish!

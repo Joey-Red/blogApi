@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import AdminPage from "./AdminPage";
 import App from "./App";
-
+import CreatePost from "./CreatePost";
 function FrontEndRouter() {
   const [currentUser] = useState("");
   // const [listOfPosts, setListOfPosts] = useState([{}]);
@@ -18,6 +18,10 @@ function FrontEndRouter() {
             element={<AdminPage currentUser={currentUser} />}
           />
           <Route exact path="/" element={<App currentUser={currentUser} />} />
+          <Route
+            path="/createPost"
+            element={<CreatePost currentUser={currentUser} />}
+          />
         </Routes>
       </>
     </div>

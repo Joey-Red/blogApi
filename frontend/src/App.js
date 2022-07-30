@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import Navbar from "./Components/Navbar";
-import Fish from "./img/fishOutline.png";
+import Footer from "./Components/Footer";
+import AddComment from "./AddComment";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [listOfUsers, setListOfUsers] = useState([{}]);
@@ -12,14 +14,10 @@ function App() {
   const [logInPw, setLogInPw] = useState("");
   const [logInPwConfirm, setLogInPwConfirm] = useState("");
   const [logInUsername, setLogInUsername] = useState("");
-  const [postTitle, setPostTitle] = useState("");
-  const [postBody, setPostBody] = useState("");
+  const [addComment, setAddComment] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
-  const [commentTitle, setCommentTitle] = useState("");
-  const [commentBody, setCommentBody] = useState("");
-  const [commentName, setCommentName] = useState("");
   const [postsLoaded, setPostsLoaded] = useState(false);
-  const [publishStatus, setPublishStatus] = useState(false);
+
   useEffect(() => {
     if (localStorage.getItem("user") !== null) {
       setCurrentUser(localStorage.getItem("user"));
@@ -36,12 +34,6 @@ function App() {
       }
     });
   }, []);
-  // Fetch Users
-  // useEffect(() => {
-  //   Axios.get("http://localhost:8080/getUsers").then((res) => {
-  //     setListOfUsers(res.data);
-  //   });
-  // }, []);
 
   // Log In
   const logIn = () => {
@@ -60,21 +52,6 @@ function App() {
   //   localStorage.removeItem("user");
   // };
 
-  // Submit Post
-  const submitPost = () => {
-    Axios.post(
-      "http://localhost:8080/create-post",
-      {
-        postTitle: postTitle,
-        postBody: postBody,
-        username: currentUser,
-        publishStatus: publishStatus,
-      },
-      { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-    ).then((res) => {
-      setListOfPosts([...listOfPosts, { postTitle, postBody, username }]);
-    });
-  };
   // Create User
   const createUser = () => {
     Axios.post("http://localhost:8080/sign-up", {
@@ -84,36 +61,29 @@ function App() {
       setListOfUsers([...listOfUsers, { username }]);
     });
   };
-  // Delete Post
-  let deletePost = (e) => {
-    Axios.post("http://localhost:8080/deletePost", {
-      postId: e.target.value,
-    });
-  };
-  // Add comment to post
-  let addComment = (e) => {
-    Axios.post("http://localhost:8080/comment", {
-      commentingOnId: e.target.value,
-      username: commentName,
-      title: commentTitle,
-      body: commentBody,
-    });
-  };
-  let editPost = (e) => {
-    Axios.post("http://localhost:8080/editPost", {
-      updateId: e.target.value,
-      postTitle: postTitle,
-      postBody: postBody,
-      username: currentUser,
-    });
-  };
 
-  const handleChange = (e) => {
-    setPublishStatus(e.target.checked);
+  let readMore = (e) => {
+    document.getElementById(e.target.value).style.display = "inline";
+    document.getElementById(e.target.value + "readmore").style.display = "none";
   };
-  let finishPost = document.getElementsByClassName("finishPost");
-  let readMore = () => {
-    finishPost.style.display = "flex";
+  let showCommentInput = (e) => {
+    if (
+      document
+        .getElementById(e.target.value + "comment")
+        .classList.contains("show")
+    ) {
+      document.getElementById(e.target.value + "comment").style.display =
+        "none";
+      document
+        .getElementById(e.target.value + "comment")
+        .classList.toggle("show");
+    } else {
+      document.getElementById(e.target.value + "comment").style.display =
+        "flex";
+      document
+        .getElementById(e.target.value + "comment")
+        .classList.toggle("show");
+    }
   };
   return (
     <div className="App">
@@ -189,85 +159,67 @@ function App() {
                       <div className="blogTitle">{post.title}</div>
                       {post.body.length > 300 ? (
                         <div className="blogBody">
-                          {post.body.substring(0, 300)}...{" "}
-                          <button className="readMore" onClick={readMore}>
+                          {post.body.substring(0, 300)}{" "}
+                          <button
+                            value={post._id}
+                            className="readMore"
+                            onClick={readMore}
+                            id={post._id + "readmore"}
+                          >
                             read more
                           </button>
-                          <div className="finishPost">{post.body}</div>
+                          <div className="finishPost" id={post._id}>
+                            {post.body.substring(301)}
+                          </div>
                         </div>
                       ) : (
                         <div className="blogBody">{post.body}</div>
                       )}
-                      {/* <div className="blogBody">{post.body}</div> */}
-
                       <div className="blogUser">{post.user}</div>
+                      <div className="showAddComments">
+                        <div className="commentDetailsContainer">
+                          {postsLoaded && post.comments.length > 0 ? (
+                            post.comments.slice(0, 3).map((comments) => {
+                              return (
+                                <div key={uuidv4()} className="commentDetails">
+                                  {comments.title.length === 0 ? (
+                                    <></>
+                                  ) : (
+                                    <>{comments.title}</>
+                                  )}
+                                  <div>{comments.body}</div>
+                                  <div className="commentBottom">
+                                    {comments.username.length === 0 ? (
+                                      <>Anon</>
+                                    ) : (
+                                      <>{comments.username}</>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })
+                          ) : (
+                            <div className="noReplies">No Replies</div>
+                          )}
+                        </div>
 
-                      {/* {currentUser.length > 0 && post.user === currentUser ? (
-                    <div className="editPost">
-                      <button onClick={deletePost} value={post._id}>
-                        X
-                      </button>
-                      <div className="h1">Edit Post Form</div>
-                      <input
-                        type="text"
-                        placeholder="title"
-                        onChange={(e) => {
-                          setPostTitle(e.target.value);
-                        }}
-                      />
-                      <input
-                        type="text"
-                        placeholder="so this one time.."
-                        onChange={(e) => {
-                          setPostBody(e.target.value);
-                        }}
-                      />
-                      <button onClick={editPost} value={post._id}>
-                        EDIT
-                      </button>
-                    </div>
-                  ) : null} */}
-                      {/* <div>
-                    {postsLoaded && post.comments.length > 0 ? (
-                      post.comments.map((comments) => {
-                        return (
-                          <div>
-                            <div>Title: {comments.title}</div>
-                            <div>Body: {comments.body}</div>
-                            <div>Username: {comments.username}</div>
+                        <div>
+                          <button
+                            className="showCommentInputButton"
+                            value={post._id}
+                            onClick={showCommentInput}
+                          >
+                            Add Comment
+                          </button>
+                          <div
+                            className="addCommentContainer"
+                            id={post._id + "comment"}
+                          >
+                            <AddComment post={post} />
                           </div>
-                        );
-                      })
-                    ) : (
-                      <>No Replies? Add a comment</>
-                    )}
-                  </div> */}
-                      {/* <div className="addComment">
-                    <input
-                      type="text"
-                      placeholder="title (optional) "
-                      onChange={(e) => {
-                        setCommentTitle(e.target.value);
-                      }}
-                    />
-                    <input
-                      type="text"
-                      placeholder="share your thoughts"
-                      onChange={(e) => {
-                        setCommentBody(e.target.value);
-                      }}
-                    />
-                    <input
-                      type="text"
-                      placeholder="name (optional)"
-                      onChange={(e) => {
-                        setCommentName(e.target.value);
-                      }}
-                    />
-                    <button onClick={addComment} value={post._id}>
-                      Submit Comment
-                    </button>
-                  </div> */}
+                        </div>
+                      </div>
+                      <button>Show more comments</button>
                     </div>
                   );
                 })}
@@ -276,51 +228,7 @@ function App() {
               <></>
             )}
           </div>
-          {/* {currentUser.length > 0 ? (
-            <div className="createPost">
-              <form className="createPostForm">
-                <div className="createPostInner">
-                  <div className="createPostTitle">Create Post</div>
-                  <div className="titleInput">
-                    <input
-                      type="text"
-                      placeholder="Title"
-                      onChange={(e) => {
-                        setPostTitle(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div className="bodyInput">
-                    <input
-                      type="text"
-                      placeholder="So this one time.."
-                      onChange={(e) => {
-                        setPostBody(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="publish">Publish</label>
-                    <input
-                      type="checkbox"
-                      name="publish"
-                      id="publish"
-                      checked={publishStatus}
-                      onChange={handleChange}
-                    />
-                    <button onClick={submitPost}>Submit</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          ) : (
-            <></>
-          )} */}
-          <footer className="footer">
-            You've reached the end of my posts for now. Please feel free to{" "}
-            <a href="/about">check me out!</a>
-            <img className="fishImage" src={Fish} alt="Fish" />
-          </footer>
+          <Footer />
         </div>
       </>
     </div>
