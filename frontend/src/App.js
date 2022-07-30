@@ -111,6 +111,10 @@ function App() {
   const handleChange = (e) => {
     setPublishStatus(e.target.checked);
   };
+  let finishPost = document.getElementsByClassName("finishPost");
+  let readMore = () => {
+    finishPost.style.display = "flex";
+  };
   return (
     <div className="App">
       <>
@@ -174,16 +178,31 @@ function App() {
             <></>
           )}
         </>
+
         <div className="layoutContainer">
           <div className="postContainer">
-            {listOfPosts.map((post) => {
-              return (
-                <div key={post._id} className="blogPost">
-                  <div className="blogTitle">{post.title}</div>
-                  <div className="blogBody">{post.body}</div>
-                  <div className="blogUser">{post.user}</div>
+            {postsLoaded ? (
+              <>
+                {listOfPosts.map((post) => {
+                  return (
+                    <div key={post._id} className="blogPost">
+                      <div className="blogTitle">{post.title}</div>
+                      {post.body.length > 300 ? (
+                        <div className="blogBody">
+                          {post.body.substring(0, 300)}...{" "}
+                          <button className="readMore" onClick={readMore}>
+                            read more
+                          </button>
+                          <div className="finishPost">{post.body}</div>
+                        </div>
+                      ) : (
+                        <div className="blogBody">{post.body}</div>
+                      )}
+                      {/* <div className="blogBody">{post.body}</div> */}
 
-                  {/* {currentUser.length > 0 && post.user === currentUser ? (
+                      <div className="blogUser">{post.user}</div>
+
+                      {/* {currentUser.length > 0 && post.user === currentUser ? (
                     <div className="editPost">
                       <button onClick={deletePost} value={post._id}>
                         X
@@ -208,7 +227,7 @@ function App() {
                       </button>
                     </div>
                   ) : null} */}
-                  {/* <div>
+                      {/* <div>
                     {postsLoaded && post.comments.length > 0 ? (
                       post.comments.map((comments) => {
                         return (
@@ -223,7 +242,7 @@ function App() {
                       <>No Replies? Add a comment</>
                     )}
                   </div> */}
-                  {/* <div className="addComment">
+                      {/* <div className="addComment">
                     <input
                       type="text"
                       placeholder="title (optional) "
@@ -249,9 +268,13 @@ function App() {
                       Submit Comment
                     </button>
                   </div> */}
-                </div>
-              );
-            })}
+                    </div>
+                  );
+                })}
+              </>
+            ) : (
+              <></>
+            )}
           </div>
           {/* {currentUser.length > 0 ? (
             <div className="createPost">

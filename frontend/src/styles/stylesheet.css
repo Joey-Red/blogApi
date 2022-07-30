@@ -68,8 +68,8 @@
 .navContainer .workPic {
   border-radius: 50%;
   background-size: cover;
-  height: 160px;
-  width: 160px;
+  height: 250px;
+  width: 250px;
   background-image: url(../img/workPic.jpg);
   z-index: 9999;
   align-self: center;
@@ -80,6 +80,10 @@
 .navContainer .articleBody {
   font-size: 0.8rem;
   margin-left: 30px;
+}
+
+.finishPost {
+  display: none;
 }
 
 .layoutContainer {
@@ -131,6 +135,9 @@
   font-size: 1.6rem;
   font-weight: bolder;
   color: #cbd2d7;
+  display: flex;
+  margin: 0 auto 4px auto;
+  max-width: 800px;
 }
 .postContainer .blogPost:nth-child(even) {
   background-color: #cbd2d7;
@@ -139,10 +146,9 @@
   color: #040607;
 }
 .postContainer .blogBody {
-  max-width: 60ch;
-  margin-bottom: 4px;
-  text-indent: 4ch;
-  margin-bottom: 10px;
+  max-width: 800px;
+  margin: 0 auto 10px auto;
+  display: flex;
   font-size: 1rem;
   color: #8b523b;
   font-weight: bold;
@@ -153,7 +159,9 @@
   color: #8b523b;
   font-weight: bold;
   letter-spacing: 1px;
-  margin-bottom: 40px;
+  display: flex;
+  margin: 0 auto 20px auto;
+  max-width: 800px;
 }
 
 footer {
@@ -165,10 +173,20 @@ footer {
   color: #040607;
   padding: 10px 40px 30px 40px;
   background-color: #cbd2d7;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
 }
 footer a,
 footer a:visited {
   color: rgb(26, 30, 33);
+  max-width: -webkit-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  align-self: center;
 }
 footer .fishImage {
   position: absolute;
@@ -197,7 +215,7 @@ footer .fishImage {
     left: 0%;
   }
   49% {
-    left: 94%;
+    left: calc(100% - 30px);
     transform: scaleX(1);
   }
   50% {
@@ -214,7 +232,7 @@ footer .fishImage {
     left: 0%;
   }
   49% {
-    left: 94%;
+    left: calc(100% - 30px);
     transform: scaleX(1);
   }
   50% {
@@ -223,5 +241,29 @@ footer .fishImage {
   100% {
     left: 0%;
     transform: scaleX(-1);
+  }
+}
+@media (max-width: 1136px) {
+  .workPic {
+    max-height: 200px;
+    max-width: 200px;
+  }
+}
+@media (max-width: 924px) {
+  .workPic {
+    max-height: 160px;
+    max-width: 160px;
+  }
+}
+@media (max-width: 924px) {
+  .workPic {
+    max-height: 160px;
+    max-width: 160px;
+  }
+}
+@media (max-width: 717px) {
+  .workPic {
+    max-height: 130px;
+    max-width: 130px;
   }
 }/*# sourceMappingURL=stylesheet.css.map */
