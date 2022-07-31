@@ -137,6 +137,7 @@ $image-size: 250px;
   .blogPost {
     padding: 10px 40px 10px 40px;
     background-color: $primary-dark;
+    min-height: 375px;
   }
   .blogTitle {
     margin-bottom: 4px;
@@ -190,11 +191,15 @@ $image-size: 250px;
   max-width: 500px;
   padding: 10px;
   border-radius: 2px;
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
 }
 .addCommentContainer {
   display: none;
+}
+.showCommentInputContainer {
+  max-height: 209px;
+  position: relative;
 }
 .showCommentInputButton {
   background: none;
@@ -203,39 +208,65 @@ $image-size: 250px;
   margin: 0px 0px 0px calc(100% - 300px);
 }
 
-.commentDetailsContainer {
-  margin-top: 20px;
+.showMoreComments {
+  background: none;
+  border: none;
+  @include defaultText();
+  margin: 0 auto;
+  display: flex;
 }
 .showAddComments {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  // display: flex;
+  // display: grid;
+  // grid-template-columns: repeat(2, 1fr);
   // display: flex;
   margin: 0 auto 4px auto;
   // justify-content: center;
   max-width: 800px;
 }
+.commentDetailsContainer {
+  margin-top: 20px;
+  // display: grid;
+  // grid-template-columns: repeat(2, 1fr);
+  column-count: 2;
+  // column-gap: 1rem;
+  // width: 100%;
+}
 .commentDetails {
   @include defaultText();
   // background: $primary-color;
-  width: 40vw;
-  max-width: 500px;
+  // width: 40vw;
+  // max-width: 500px;
   padding: 10px;
   border-radius: 2px;
-  display: flex;
-  flex-direction: column;
-}
-.commentBottom {
+  min-height: 78px;
+  // display: flex;
+  // flex-direction: column;
   border-bottom: solid $light-accent 1px;
+  // border-right: solid $light-accent 1px;
+  // margin-right: 8px;
+  break-inside: avoid;
 }
+.blogPost:nth-child(even) {
+  .commentDetails {
+    border-bottom: solid $primary-color 1px;
+  }
+}
+
+// .commentBody {
+//   overflow: hidden;
+// }
 .addComment {
   margin: 0px 0px 0px calc(100% - 300px);
   display: flex;
+  position: absolute;
   flex-direction: column;
   width: 300px;
   background-color: $dark-accent;
   padding: 8px;
   border-radius: 2px;
   gap: 8px;
+  box-shadow: 0px 0px 10px 2px;
   .commentTitle,
   .commentName {
     height: 30px;
@@ -345,4 +376,34 @@ footer {
     max-height: 130px;
     max-width: 130px;
   }
+}
+
+// Admin Page styles
+.adminPageContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  @include defaultText();
+  // background-color: $primary-color;
+  background-color: $primary-dark;
+}
+.adminPageHeader,
+.apPublished,
+.apUnpublished {
+  padding: 30px;
+}
+.apPostContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  margin: 8px auto;
+  gap: 8px;
+}
+.apPost {
+  max-width: 30vw;
+  align-content: center;
+  justify-self: center;
+  background-color: $secondary-color;
+  padding: 10px;
+  max-height: fit-content;
 }

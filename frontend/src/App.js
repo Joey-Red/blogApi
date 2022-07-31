@@ -177,33 +177,7 @@ function App() {
                       )}
                       <div className="blogUser">{post.user}</div>
                       <div className="showAddComments">
-                        <div className="commentDetailsContainer">
-                          {postsLoaded && post.comments.length > 0 ? (
-                            post.comments.slice(0, 3).map((comments) => {
-                              return (
-                                <div key={uuidv4()} className="commentDetails">
-                                  {comments.title.length === 0 ? (
-                                    <></>
-                                  ) : (
-                                    <>{comments.title}</>
-                                  )}
-                                  <div>{comments.body}</div>
-                                  <div className="commentBottom">
-                                    {comments.username.length === 0 ? (
-                                      <>Anon</>
-                                    ) : (
-                                      <>{comments.username}</>
-                                    )}
-                                  </div>
-                                </div>
-                              );
-                            })
-                          ) : (
-                            <div className="noReplies">No Replies</div>
-                          )}
-                        </div>
-
-                        <div>
+                        <div className="showCommentInputContainer">
                           <button
                             className="showCommentInputButton"
                             value={post._id}
@@ -218,8 +192,34 @@ function App() {
                             <AddComment post={post} />
                           </div>
                         </div>
+                        <div className="commentDetailsContainer">
+                          {postsLoaded && post.comments.length > 0 ? (
+                            post.comments.map((comments) => {
+                              return (
+                                <div key={uuidv4()} className="commentDetails">
+                                  {comments.title.length === 0 ? (
+                                    <></>
+                                  ) : (
+                                    <>{comments.title}</>
+                                  )}
+                                  <div className="commentBody">
+                                    {comments.body}
+                                  </div>
+                                  <div className="commentBottom">
+                                    {comments.username.length === 0 ? (
+                                      <>Anon</>
+                                    ) : (
+                                      <>{comments.username}</>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })
+                          ) : (
+                            <div className="noReplies">No Replies</div>
+                          )}
+                        </div>
                       </div>
-                      <button>Show more comments</button>
                     </div>
                   );
                 })}

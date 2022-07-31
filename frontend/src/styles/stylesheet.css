@@ -125,6 +125,7 @@
 .postContainer .blogPost {
   padding: 10px 40px 10px 40px;
   background-color: rgb(26, 30, 33);
+  min-height: 375px;
 }
 .postContainer .blogTitle {
   margin-bottom: 4px;
@@ -187,12 +188,15 @@
   max-width: 500px;
   padding: 10px;
   border-radius: 2px;
-  display: flex;
-  flex-direction: column;
 }
 
 .addCommentContainer {
   display: none;
+}
+
+.showCommentInputContainer {
+  max-height: 209px;
+  position: relative;
 }
 
 .showCommentInputButton {
@@ -205,15 +209,26 @@
   margin: 0px 0px 0px calc(100% - 300px);
 }
 
-.commentDetailsContainer {
-  margin-top: 20px;
+.showMoreComments {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #8b523b;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin: 0 auto;
+  display: flex;
 }
 
 .showAddComments {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
   margin: 0 auto 4px auto;
   max-width: 800px;
+}
+
+.commentDetailsContainer {
+  margin-top: 20px;
+  -moz-column-count: 2;
+       column-count: 2;
 }
 
 .commentDetails {
@@ -221,27 +236,29 @@
   color: #8b523b;
   font-weight: bold;
   letter-spacing: 1px;
-  width: 40vw;
-  max-width: 500px;
   padding: 10px;
   border-radius: 2px;
-  display: flex;
-  flex-direction: column;
+  min-height: 78px;
+  border-bottom: solid #cbd2d7 1px;
+  -moz-column-break-inside: avoid;
+       break-inside: avoid;
 }
 
-.commentBottom {
-  border-bottom: solid #cbd2d7 1px;
+.blogPost:nth-child(even) .commentDetails {
+  border-bottom: solid #040607 1px;
 }
 
 .addComment {
   margin: 0px 0px 0px calc(100% - 300px);
   display: flex;
+  position: absolute;
   flex-direction: column;
   width: 300px;
   background-color: #8b523b;
   padding: 8px;
   border-radius: 2px;
   gap: 8px;
+  box-shadow: 0px 0px 10px 2px;
 }
 .addComment .commentTitle,
 .addComment .commentName {
@@ -377,4 +394,39 @@ footer .fishImage {
     max-height: 130px;
     max-width: 130px;
   }
+}
+.adminPageContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  font-size: 1rem;
+  color: #8b523b;
+  font-weight: bold;
+  letter-spacing: 1px;
+  background-color: rgb(26, 30, 33);
+}
+
+.adminPageHeader,
+.apPublished,
+.apUnpublished {
+  padding: 30px;
+}
+
+.apPostContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  margin: 8px auto;
+  gap: 8px;
+}
+
+.apPost {
+  max-width: 30vw;
+  align-content: center;
+  justify-self: center;
+  background-color: #b5bcc2;
+  padding: 10px;
+  max-height: -webkit-fit-content;
+  max-height: -moz-fit-content;
+  max-height: fit-content;
 }/*# sourceMappingURL=stylesheet.css.map */

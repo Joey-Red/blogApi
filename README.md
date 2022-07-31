@@ -14,3 +14,5 @@ Technologies Used:
 -Axios
 -React Router
 -SASS
+
+/adminPage to edit/publish/unpublish posts and comments.
