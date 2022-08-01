@@ -8,12 +8,10 @@ import { v4 as uuidv4 } from "uuid";
 function App() {
   const [listOfUsers, setListOfUsers] = useState([{}]);
   const [listOfPosts, setListOfPosts] = useState([{}]);
+  const [listOfComments, setListOfComments] = useState([{}]);
+  const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
-  const [logInPw, setLogInPw] = useState("");
-  const [logInPwConfirm, setLogInPwConfirm] = useState("");
-  const [logInUsername, setLogInUsername] = useState("");
   const [addComment, setAddComment] = useState(false);
   const [currentUser, setCurrentUser] = useState("");
   const [postsLoaded, setPostsLoaded] = useState(false);
@@ -35,32 +33,15 @@ function App() {
     });
   }, []);
 
-  // Log In
-  const logIn = () => {
-    Axios.post("http://localhost:8080/log-in", {
-      username: logInUsername,
-      password: logInPw,
-    }).then((res) => {
-      setCurrentUser(res.data.user.username);
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", res.data.user.username);
+  useEffect(() => {
+    Axios.get("http://localhost:8080/getComments").then((res) => {
+      setListOfComments(res.data);
+      setCommentsLoaded(true);
+      if (localStorage.getItem("user").length > 0) {
+        setCurrentUser(localStorage.getItem("user"));
+      }
     });
-  };
-  //Log out
-  // const logOut = () => {
-  //   localStorage.removeItem("token");
-  //   localStorage.removeItem("user");
-  // };
-
-  // Create User
-  const createUser = () => {
-    Axios.post("http://localhost:8080/sign-up", {
-      username: username,
-      password: password,
-    }).then((res) => {
-      setListOfUsers([...listOfUsers, { username }]);
-    });
-  };
+  }, []);
 
   let readMore = (e) => {
     document.getElementById(e.target.value).style.display = "inline";
@@ -89,66 +70,6 @@ function App() {
     <div className="App">
       <>
         <Navbar currentUser={currentUser} />
-        <>
-          {currentUser.length === 0 ? (
-            <>
-              {/* <div className="h1">Sign Up</div>
-              <div className="createUser">
-                <input
-                  type="text"
-                  placeholder="username"
-                  onChange={(e) => {
-                    setUsername(e.target.value);
-                  }}
-                />
-                <input
-                  type="password"
-                  placeholder="password"
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                />
-                <input
-                  type="password"
-                  placeholder="confirm password"
-                  onChange={(e) => {
-                    setPasswordConfirm(e.target.value);
-                  }}
-                />
-                <button onClick={createUser}>Submit</button>
-              </div> */}
-
-              <div className="logIn">
-                <div className="h1">Log In</div>
-                <input
-                  type="text"
-                  placeholder="username"
-                  onChange={(e) => {
-                    setLogInUsername(e.target.value);
-                  }}
-                />
-                <input
-                  type="password"
-                  placeholder="password"
-                  onChange={(e) => {
-                    setLogInPw(e.target.value);
-                  }}
-                />
-                <input
-                  type="password"
-                  placeholder="confirm password"
-                  onChange={(e) => {
-                    setLogInPwConfirm(e.target.value);
-                  }}
-                />
-                <button onClick={logIn}>Submit</button>
-              </div>
-            </>
-          ) : (
-            <></>
-          )}
-        </>
-
         <div className="layoutContainer">
           <div className="postContainer">
             {postsLoaded ? (
@@ -193,27 +114,49 @@ function App() {
                           </div>
                         </div>
                         <div className="commentDetailsContainer">
-                          {postsLoaded && post.comments.length > 0 ? (
-                            post.comments.map((comments) => {
-                              return (
-                                <div key={uuidv4()} className="commentDetails">
-                                  {comments.title.length === 0 ? (
-                                    <></>
-                                  ) : (
-                                    <>{comments.title}</>
-                                  )}
-                                  <div className="commentBody">
-                                    {comments.body}
-                                  </div>
-                                  <div className="commentBottom">
-                                    {comments.username.length === 0 ? (
-                                      <>Anon</>
+                          {commentsLoaded ? (
+                            listOfComments.map((comments) => {
+                              if (comments.commentingOnId === post._id) {
+                                return (
+                                  <div
+                                    key={uuidv4()}
+                                    className="commentDetails"
+                                  >
+                                    {comments.commentingOnId === post._id &&
+                                    comments.title.length !== 0 ? (
+                                      <>{comments.title}</>
                                     ) : (
-                                      <>{comments.username}</>
+                                      <></>
+                                    )}
+                                    {comments.commentingOnId === post._id ? (
+                                      <>
+                                        <div className="commentBody">
+                                          {comments.body}
+                                        </div>
+                                      </>
+                                    ) : (
+                                      <></>
+                                    )}
+                                    {comments.commentingOnId === post._id ? (
+                                      <>
+                                        <div className="commentBottom">
+                                          {comments.commentingOnId ===
+                                            post._id &&
+                                          comments.username.length !== 0 ? (
+                                            <>{comments.username}</>
+                                          ) : (
+                                            <>Anon</>
+                                          )}
+                                        </div>
+                                      </>
+                                    ) : (
+                                      <></>
                                     )}
                                   </div>
-                                </div>
-                              );
+                                );
+                              } else {
+                                <></>;
+                              }
                             })
                           ) : (
                             <div className="noReplies">No Replies</div>

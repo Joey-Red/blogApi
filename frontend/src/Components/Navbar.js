@@ -22,7 +22,6 @@ function Navbar(props) {
               {" "}
               <FontAwesomeIcon icon={faTwitter} />
             </a>
-            <a href="/about">About</a>
           </div>
         </div>
         <div className="attentionOuter">
@@ -36,7 +35,9 @@ function Navbar(props) {
               Passport, Router, SASS and more.
             </p>
           </div>
-          <div className="workPic"></div>
+          <a href="/signIn">
+            <div className="workPic"></div>
+          </a>
         </div>
       </div>
     </>

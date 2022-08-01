@@ -12,6 +12,7 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const dotenv = require("dotenv");
 dotenv.config();
+mongoose.set("debug", true);
 
 // Passport
 passport.use(
@@ -104,17 +105,23 @@ router.post("/comment", (req, res, next) => {
     title: req.body.title,
     body: req.body.body,
     added: new Date(),
-  });
-  Post.findOneAndUpdate(
-    { _id: req.body.commentingOnId },
-    {
-      $push: { comments: comment },
-    },
-    { upsert: true },
-    function (err, docs) {
-      res.json(docs);
+  }).save((err) => {
+    if (err) {
+      return next(err);
     }
-  );
+    // res.redirect("/");
+    // res.json({ authData: authData });
+  });
+  // Post.findOneAndUpdate(
+  //   { _id: req.body.commentingOnId },
+  //   {
+  //     $push: { comments: comment },
+  //   },
+  //   { upsert: true },
+  //   function (err, docs) {
+  //     res.json(docs);
+  //   }
+  // );
 });
 // Set Post to Publish
 router.post("/publishPost", (req, res, next) => {
@@ -183,6 +190,23 @@ router.post("/deletePost", (req, res, next) => {
     res.redirect("/");
   });
 });
+//Delete Comment and Refresh Page
+router.post("/deleteComment", (req, res, next) => {
+  Comment.findByIdAndRemove(req.body.commentId, function deleteComment(err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  }),
+    function (err, docs) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("Result : ", docs);
+      }
+    };
+});
+
 router.post("/editPost", (req, res, next) => {
   const updatedPost = {
     title: req.body.postTitle,
@@ -294,10 +318,19 @@ router.get("/getPosts", (req, res) => {
     res.json(result);
   });
 });
+router.get("/getComments", (req, res) => {
+  Comment.find({}, (err, result) => {
+    if (err) {
+      res.json(err);
+    }
+    res.json(result);
+  });
+});
 router.get("/adminPosts", verifyToken, (req, res) => {
   jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
     if (err) {
       // res.json(403); <-- Crashes app
+      // here
       console.log(err);
     }
     //  publish: false if you want only false inside {}

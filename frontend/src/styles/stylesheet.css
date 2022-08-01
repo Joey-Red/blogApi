@@ -88,40 +88,6 @@
   flex-direction: column;
 }
 
-.createPost {
-  display: flex;
-  justify-self: flex-end;
-  justify-content: flex-end;
-  margin-right: 40px;
-}
-
-.createPostForm {
-  font-size: 1rem;
-  color: #8b523b;
-  font-weight: bold;
-  letter-spacing: 1px;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  flex-direction: row;
-  border: solid #cbd2d7 1px;
-  border-radius: 4px;
-  padding: 40px;
-  height: 400px;
-  width: 400px;
-}
-.createPostForm .createPostTitle {
-  font-size: 1.2rem;
-  color: #cbd2d7;
-}
-.createPostForm .titleInput {
-  margin-bottom: 4px;
-}
-.createPostForm .bodyInput {
-  margin-bottom: 4px;
-}
-
 .postContainer .blogPost {
   padding: 10px 40px 10px 40px;
   background-color: rgb(26, 30, 33);
@@ -396,14 +362,26 @@ footer .fishImage {
   }
 }
 .adminPageContainer {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
   font-size: 1rem;
   color: #8b523b;
   font-weight: bold;
   letter-spacing: 1px;
   background-color: rgb(26, 30, 33);
+}
+
+.masonryContainer,
+.masonryContainer2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(33.3333333333%, 1fr));
+  grid-gap: 10px;
+  grid-auto-rows: minmax(180px, auto);
+  grid-auto-flow: dense;
+  padding: 10px;
+}
+.masonryContainer .apPost,
+.masonryContainer2 .apPost {
+  background-color: #b5bcc2;
+  padding: 20px;
 }
 
 .adminPageHeader,
@@ -412,21 +390,80 @@ footer .fishImage {
   padding: 30px;
 }
 
-.apPostContainer {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-content: center;
-  margin: 8px auto;
-  gap: 8px;
+.editPost {
+  display: flex;
+  flex-direction: column;
+}
+.editPost button,
+.editPost div,
+.editPost textarea,
+.editPost input {
+  padding: 20px;
+}
+.editPost textarea {
+  max-width: 100%;
 }
 
-.apPost {
-  max-width: 30vw;
-  align-content: center;
-  justify-self: center;
-  background-color: #b5bcc2;
+.makePostContainer {
+  background-color: rgb(26, 30, 33);
+  height: 100vh;
+  font-weight: 800;
+}
+.makePostContainer input {
   padding: 10px;
-  max-height: -webkit-fit-content;
-  max-height: -moz-fit-content;
-  max-height: fit-content;
+}
+.makePostContainer .logIn {
+  background: #cbd2d7;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  height: 300px;
+  flex-direction: column;
+  gap: 8px;
+}
+.makePostContainer .logInButton {
+  padding: 4px;
+  background-color: #7fff00;
+}
+.makePostContainer .logInButton:disabled {
+  background-color: #fd5c63;
+}
+
+.createPost {
+  background-color: #cbd2d7;
+  height: 300px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 4px;
+}
+.createPost button {
+  max-width: 40vw;
+}
+.createPost .checkbox {
+  margin-left: 4px;
+}
+.createPost .mpField {
+  max-width: 40vw;
+}
+.createPost .logOut {
+  margin-top: 40px;
+  display: flex;
+  align-content: center;
+  gap: 8px;
+}
+.createPost .logOut div {
+  font-weight: 900;
+  font-size: 1.2rem;
+}
+.createPost .logOut button {
+  background-color: #fd5c63;
+  border-radius: 4px;
+  align-self: center;
+  padding: 2px;
+  justify-self: center;
 }/*# sourceMappingURL=stylesheet.css.map */

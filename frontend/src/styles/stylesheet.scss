@@ -40,7 +40,6 @@ $image-size: 250px;
   background-color: $light-accent;
   color: $primary-color;
   height: 400px;
-  // box-shadow: 0px 1px 4px 1px black;
   .navInner {
     display: flex;
     width: 100%;
@@ -104,34 +103,7 @@ $image-size: 250px;
   justify-content: center;
   flex-direction: column;
 }
-// Create Post Form
-.createPost {
-  display: flex;
-  justify-self: flex-end;
-  justify-content: flex-end;
-  margin-right: 40px;
-}
-.createPostForm {
-  @include defaultText();
-  @include flexAndCenter();
-  flex-direction: row;
-  // margin-top: 20px;
-  border: solid $light-accent 1px;
-  border-radius: 4px;
-  padding: 40px;
-  height: 400px;
-  width: 400px;
-  .createPostTitle {
-    font-size: 1.2rem;
-    color: $light-accent;
-  }
-  .titleInput {
-    margin-bottom: 4px;
-  }
-  .bodyInput {
-    margin-bottom: 4px;
-  }
-}
+
 // Post Container
 .postContainer {
   .blogPost {
@@ -146,7 +118,6 @@ $image-size: 250px;
     color: $light-accent;
     display: flex;
     margin: 0 auto 4px auto;
-    // justify-content: center;
     max-width: 800px;
   }
   .blogPost:nth-child(even) {
@@ -158,10 +129,6 @@ $image-size: 250px;
   .blogBody {
     max-width: 800px;
     margin: 0 auto 10px auto;
-    // display: flex;
-    // display: inline;
-    // flex-wrap: wrap;
-    // flex-direction: column;
     @include defaultText();
   }
   .readMore {
@@ -191,8 +158,6 @@ $image-size: 250px;
   max-width: 500px;
   padding: 10px;
   border-radius: 2px;
-  // display: flex;
-  // flex-direction: column;
 }
 .addCommentContainer {
   display: none;
@@ -216,35 +181,19 @@ $image-size: 250px;
   display: flex;
 }
 .showAddComments {
-  // display: flex;
-  // display: grid;
-  // grid-template-columns: repeat(2, 1fr);
-  // display: flex;
   margin: 0 auto 4px auto;
-  // justify-content: center;
   max-width: 800px;
 }
 .commentDetailsContainer {
   margin-top: 20px;
-  // display: grid;
-  // grid-template-columns: repeat(2, 1fr);
   column-count: 2;
-  // column-gap: 1rem;
-  // width: 100%;
 }
 .commentDetails {
   @include defaultText();
-  // background: $primary-color;
-  // width: 40vw;
-  // max-width: 500px;
   padding: 10px;
   border-radius: 2px;
   min-height: 78px;
-  // display: flex;
-  // flex-direction: column;
   border-bottom: solid $light-accent 1px;
-  // border-right: solid $light-accent 1px;
-  // margin-right: 8px;
   break-inside: avoid;
 }
 .blogPost:nth-child(even) {
@@ -253,9 +202,6 @@ $image-size: 250px;
   }
 }
 
-// .commentBody {
-//   overflow: hidden;
-// }
 .addComment {
   margin: 0px 0px 0px calc(100% - 300px);
   display: flex;
@@ -380,30 +326,94 @@ footer {
 
 // Admin Page styles
 .adminPageContainer {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
   @include defaultText();
-  // background-color: $primary-color;
   background-color: $primary-dark;
+}
+.masonryContainer,
+.masonryContainer2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(100% / 3), 1fr));
+  grid-gap: 10px;
+  grid-auto-rows: minmax(180px, auto);
+  grid-auto-flow: dense;
+  padding: 10px;
+  .apPost {
+    background-color: $secondary-color;
+    padding: 20px;
+  }
 }
 .adminPageHeader,
 .apPublished,
 .apUnpublished {
   padding: 30px;
 }
-.apPostContainer {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-content: center;
-  margin: 8px auto;
-  gap: 8px;
+.editPost {
+  display: flex;
+  flex-direction: column;
+  button,
+  div,
+  textarea,
+  input {
+    padding: 20px;
+  }
+  textarea {
+    max-width: 100%;
+  }
 }
-.apPost {
-  max-width: 30vw;
-  align-content: center;
-  justify-self: center;
-  background-color: $secondary-color;
-  padding: 10px;
-  max-height: fit-content;
+// Make Post / Sign in page Container
+.makePostContainer {
+  background-color: $primary-dark;
+  height: 100vh;
+  font-weight: 800;
+  input {
+    padding: 10px;
+  }
+  .logIn {
+    background: $light-accent;
+    @include flexAndCenter();
+    height: 300px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .logInButton {
+    padding: 4px;
+    background-color: #7fff00;
+  }
+  .logInButton:disabled {
+    background-color: #fd5c63;
+  }
+}
+.createPost {
+  background-color: $light-accent;
+  height: 300px;
+  padding: 20px;
+  @include flexAndCenter();
+  flex-direction: column;
+  gap: 4px;
+  button {
+    max-width: 40vw;
+  }
+  .checkbox {
+    margin-left: 4px;
+  }
+  .mpField {
+    max-width: 40vw;
+  }
+  .logOut {
+    margin-top: 40px;
+    display: flex;
+    align-content: center;
+    gap: 8px;
+    div {
+      font-weight: 900;
+      font-size: 1.2rem;
+    }
+    button {
+      background-color: #fd5c63;
+      border-radius: 4px;
+      align-self: center;
+      padding: 2px;
+      justify-self: center;
+    }
+  }
 }

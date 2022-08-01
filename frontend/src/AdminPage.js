@@ -4,11 +4,14 @@ import { v4 as uuidv4 } from "uuid";
 
 function AdminPage() {
   const [postsLoaded, setPostsLoaded] = useState(false);
+  const [pubPostsLoaded, setPubPostsLoaded] = useState(false);
   const [listOfPosts, setListOfPosts] = useState([{}]);
   const [listOfPublishedPosts, setListOfPublishedPosts] = useState([{}]);
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
   const [currentUser, setCurrentUser] = useState("");
+  const [listOfComments, setListOfComments] = useState([{}]);
+  const [commentsLoaded, setCommentsLoaded] = useState(false);
 
   useEffect(() => {
     Axios.get("http://localhost:8080/adminPosts", {
@@ -23,11 +26,26 @@ function AdminPage() {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     }).then((res) => {
       setListOfPublishedPosts(res.data);
+      setPubPostsLoaded(true);
+    });
+  }, []);
+  useEffect(() => {
+    Axios.get("http://localhost:8080/getComments").then((res) => {
+      setListOfComments(res.data);
+      setCommentsLoaded(true);
+      if (localStorage.getItem("user").length > 0) {
+        setCurrentUser(localStorage.getItem("user"));
+      }
     });
   }, []);
   let deletePost = (e) => {
     Axios.post("http://localhost:8080/deletePost", {
       postId: e.target.value,
+    });
+  };
+  let deleteComment = (e) => {
+    Axios.post("http://localhost:8080/deleteComment", {
+      commentId: e.target.value,
     });
   };
   let publishPost = (e) => {
@@ -54,12 +72,14 @@ function AdminPage() {
       <h1 className="apUnpublished">Unpublished Posts</h1>
       <div className="apLayoutContainer">
         <div className="apPostContainer">
-          <>
+          <div className="masonryContainer" id="masonryContainer">
             {listOfPosts.map((post) => {
               return (
                 <div className="apPost" key={post._id}>
-                  Username: {post.user} Title: {post.title}
-                  Body: {post.body}
+                  <div className="apUser">Username: {post.user}</div>
+                  <div className="apTitle">Title: {post.title}</div>
+                  <div className="apBody">Body: {post.body}</div>
+
                   <div className="editPost">
                     <button onClick={deletePost} value={post._id}>
                       Delete Post
@@ -75,7 +95,7 @@ function AdminPage() {
                         setPostTitle(e.target.value);
                       }}
                     />
-                    <input
+                    <textarea
                       type="text"
                       placeholder="so this one time.."
                       onChange={(e) => {
@@ -86,26 +106,46 @@ function AdminPage() {
                       EDIT
                     </button>
                   </div>
-                  <div className="commentDetailsContainer">
-                    {postsLoaded && post.comments.length > 0 ? (
-                      post.comments.map((comments) => {
-                        return (
-                          <div key={uuidv4()} className="commentDetails">
-                            {comments.title.length === 0 ? (
-                              <></>
-                            ) : (
-                              <>{comments.title}</>
-                            )}
-                            <div className="commentBody">{comments.body}</div>
-                            <div className="commentBottom">
-                              {comments.username.length === 0 ? (
-                                <>Anon</>
+                  <div className="apCommentDetailsContainer">
+                    {commentsLoaded ? (
+                      listOfComments.map((comments) => {
+                        if (comments.commentingOnId === post._id) {
+                          return (
+                            <div key={uuidv4()} className="commentDetails">
+                              {comments.commentingOnId === post._id &&
+                              comments.title.length !== 0 ? (
+                                <>{comments.title}</>
                               ) : (
-                                <>{comments.username}</>
+                                <></>
+                              )}
+                              {comments.commentingOnId === post._id ? (
+                                <>
+                                  <div className="commentBody">
+                                    {comments.body}
+                                  </div>
+                                </>
+                              ) : (
+                                <></>
+                              )}
+                              {comments.commentingOnId === post._id ? (
+                                <>
+                                  <div className="commentBottom">
+                                    {comments.commentingOnId === post._id &&
+                                    comments.username.length !== 0 ? (
+                                      <>{comments.username}</>
+                                    ) : (
+                                      <>Anon</>
+                                    )}
+                                  </div>
+                                </>
+                              ) : (
+                                <></>
                               )}
                             </div>
-                          </div>
-                        );
+                          );
+                        } else {
+                          <></>;
+                        }
                       })
                     ) : (
                       <div className="noReplies">No Replies</div>
@@ -114,19 +154,20 @@ function AdminPage() {
                 </div>
               );
             })}
-          </>
+          </div>
         </div>
       </div>
       <h1 className="apPublished">Published Posts</h1>
       <div className="apLayoutContainer">
         <div className="apPostContainer">
-          <>
+          <div className="masonryContainer2" id="masonryContainer2">
             {listOfPublishedPosts.map((post) => {
               return (
                 <>
                   <div className="apPost" key={post._id}>
-                    Username: {post.user} Title: {post.title}
-                    Body: {post.body}
+                    <div className="apUser">Username: {post.user}</div>
+                    <div className="apTitle">Title: {post.title}</div>
+                    <div className="apBody">Body: {post.body}</div>
                     <div className="editPost">
                       <button onClick={deletePost} value={post._id}>
                         Delete Post
@@ -142,7 +183,7 @@ function AdminPage() {
                           setPostTitle(e.target.value);
                         }}
                       />
-                      <input
+                      <textarea
                         type="text"
                         placeholder="so this one time.."
                         onChange={(e) => {
@@ -153,27 +194,53 @@ function AdminPage() {
                         EDIT
                       </button>
                     </div>
-                    <div className="commentDetailsContainer">
-                      {postsLoaded && post.comments.length > 0 ? (
-                        post.comments.map((comments) => {
-                          return (
-                            <div key={uuidv4()} className="commentDetails">
-                              {comments.title.length === 0 ? (
-                                <></>
-                              ) : (
-                                <>{comments.title}</>
-                              )}
-                              <div className="commentBody">{comments.body}</div>
-                              <div className="commentBottom">
-                                {comments.username.length === 0 ? (
-                                  <>Anon</>
+                    <div className="apCommentDetailsContainer">
+                      {commentsLoaded ? (
+                        listOfComments.map((comments) => {
+                          if (comments.commentingOnId === post._id) {
+                            return (
+                              <div key={uuidv4()} className="commentDetails">
+                                {comments.commentingOnId === post._id &&
+                                comments.title.length !== 0 ? (
+                                  <>{comments.title}</>
                                 ) : (
-                                  <>{comments.username}</>
+                                  <></>
                                 )}
+                                {comments.commentingOnId === post._id ? (
+                                  <>
+                                    <div className="commentBody">
+                                      {comments.body}
+                                    </div>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
+                                {comments.commentingOnId === post._id ? (
+                                  <>
+                                    <div className="commentBottom">
+                                      {comments.commentingOnId === post._id &&
+                                      comments.username.length !== 0 ? (
+                                        <>{comments.username}</>
+                                      ) : (
+                                        <>Anon</>
+                                      )}
+                                    </div>
+                                  </>
+                                ) : (
+                                  <></>
+                                )}
+                                <button
+                                  className="deleteComment"
+                                  value={comments._id}
+                                  onClick={deleteComment}
+                                >
+                                  Delete Comment
+                                </button>
                               </div>
-                              <button>Delete Comment</button>
-                            </div>
-                          );
+                            );
+                          } else {
+                            <></>;
+                          }
                         })
                       ) : (
                         <div className="noReplies">No Replies</div>
@@ -183,7 +250,7 @@ function AdminPage() {
                 </>
               );
             })}
-          </>
+          </div>
         </div>
       </div>
     </div>
