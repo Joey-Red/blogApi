@@ -90,6 +90,7 @@ router.post("/create-post", verifyToken, (req, res, next) => {
         if (err) {
           return next(err);
         }
+        console.log("Success");
         // res.redirect("/");
         // res.json({ authData: authData });
       });

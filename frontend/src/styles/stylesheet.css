@@ -251,11 +251,17 @@
   font-weight: bold;
   letter-spacing: 1px;
 }
-.addComment button {
+.addComment .addCommentButton {
   border: none;
   border-radius: 2px;
   height: 30px;
   color: #040607;
+}
+.addComment .addCommentButton:hover {
+  cursor: pointer;
+}
+.addComment .addCommentButton:disabled {
+  cursor: default;
 }
 
 footer {
@@ -430,9 +436,26 @@ footer .fishImage {
   background-color: #fd5c63;
 }
 
+.backButton,
+.backButton:visited {
+  font-size: 1rem;
+  color: #8b523b;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-decoration: none;
+  color: rgb(26, 30, 33);
+}
+
+.backButtonAP,
+.backButtonAP:visited {
+  color: #cbd2d7;
+  text-decoration: none;
+  padding: 30px;
+}
+
 .createPost {
   background-color: #cbd2d7;
-  height: 300px;
+  min-height: 300px;
   padding: 20px;
   display: flex;
   justify-content: center;
@@ -449,6 +472,11 @@ footer .fishImage {
 }
 .createPost .mpField {
   max-width: 40vw;
+  min-width: 40vw;
+}
+.createPost .mpTextArea {
+  padding: 10px;
+  min-height: 150px;
 }
 .createPost .logOut {
   margin-top: 40px;

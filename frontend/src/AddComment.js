@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
 
 function AddComment(props) {
@@ -6,6 +6,19 @@ function AddComment(props) {
   const [commentTitle, setCommentTitle] = useState("");
   const [commentBody, setCommentBody] = useState("");
   const [commentName, setCommentName] = useState("");
+  const [conditions, setConditions] = useState(false);
+
+  useEffect(() => {
+    if (
+      commentBody === "" ||
+      commentBody === undefined ||
+      commentBody === null
+    ) {
+      setConditions(false);
+    } else {
+      setConditions(true);
+    }
+  }, [commentBody]);
 
   // Add comment to post
   let addComment = (e) => {
@@ -15,6 +28,24 @@ function AddComment(props) {
       title: commentTitle,
       body: commentBody,
     });
+    if (
+      document
+        .getElementById(e.target.value + "comment")
+        .classList.contains("show")
+    ) {
+      document.getElementById(e.target.value + "comment").style.display =
+        "none";
+      document
+        .getElementById(e.target.value + "comment")
+        .classList.toggle("show");
+    } else {
+      document.getElementById(e.target.value + "comment").style.display =
+        "flex";
+      document
+        .getElementById(e.target.value + "comment")
+        .classList.toggle("show");
+    }
+    window.location.href = "/";
   };
 
   return (
@@ -44,7 +75,12 @@ function AddComment(props) {
           setCommentName(e.target.value);
         }}
       />
-      <button disabled={!commentBody} onClick={addComment} value={post._id}>
+      <button
+        className="addCommentButton"
+        disabled={!conditions}
+        onClick={addComment}
+        value={post._id}
+      >
         Submit Comment
       </button>
     </div>

@@ -42,21 +42,25 @@ function AdminPage() {
     Axios.post("http://localhost:8080/deletePost", {
       postId: e.target.value,
     });
+    alert("Request to delete post submitted.");
   };
   let deleteComment = (e) => {
     Axios.post("http://localhost:8080/deleteComment", {
       commentId: e.target.value,
     });
+    alert("Request to delete comment submitted.");
   };
   let publishPost = (e) => {
     Axios.post("http://localhost:8080/publishPost", {
       postId: e.target.value,
     });
+    alert("Request to publish post submitted.");
   };
   let unpublishPost = (e) => {
     Axios.post("http://localhost:8080/unpublishPost", {
       postId: e.target.value,
     });
+    alert("Request to unpublish post submitted.");
   };
   let editPost = (e) => {
     Axios.post("http://localhost:8080/editPost", {
@@ -65,10 +69,14 @@ function AdminPage() {
       postBody: postBody,
       username: currentUser,
     });
+    alert("Request to edit post submitted.");
   };
   return (
     <div className="adminPageContainer">
       <header className="adminPageHeader">Admin Page</header>
+      <a className="backButtonAP" href="/">
+        Back Home
+      </a>
       <h1 className="apUnpublished">Unpublished Posts</h1>
       <div className="apLayoutContainer">
         <div className="apPostContainer">

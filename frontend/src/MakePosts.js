@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./Components/Navbar";
+import NavbarSecondary from "./Components/NavbarSecondary";
 import Axios from "axios";
 
 function MakePosts() {
@@ -37,6 +37,7 @@ function MakePosts() {
       },
       { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
     );
+    window.location.href = "/signIn";
   };
   //Log out
   const logOut = () => {
@@ -59,7 +60,7 @@ function MakePosts() {
   return (
     <div className="makePostContainer">
       <>
-        <Navbar currentUser={currentUser} />
+        <NavbarSecondary currentUser={currentUser} />
         {currentUser.length === 0 ? (
           <>
             <div className="logIn">
@@ -92,6 +93,9 @@ function MakePosts() {
               >
                 Submit
               </button>
+              <a className="backButton" href="/">
+                Back Home
+              </a>
             </div>
           </>
         ) : (
@@ -106,8 +110,8 @@ function MakePosts() {
                   setPostTitle(e.target.value);
                 }}
               />
-              <input
-                className="mpField"
+              <textarea
+                className="mpField mpTextArea"
                 type="text"
                 placeholder="so this one time.."
                 onChange={(e) => {

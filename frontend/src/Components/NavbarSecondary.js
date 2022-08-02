@@ -2,7 +2,7 @@ import React from "react";
 import WorkPic from "../img/workPic.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
-function NavbarSecondary(props) {
+function Navbar(props) {
   let { currentUser } = props;
   const logOut = () => {
     localStorage.removeItem("token");
@@ -35,7 +35,7 @@ function NavbarSecondary(props) {
               Passport, Router, SASS and more.
             </p>
           </div>
-          <a href="/signIn">
+          <a className="backButton" href="/">
             <div className="workPic"></div>
           </a>
         </div>
@@ -44,4 +44,4 @@ function NavbarSecondary(props) {
   );
 }
 
-export default NavbarSecondary;
+export default Navbar;

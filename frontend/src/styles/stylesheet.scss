@@ -235,11 +235,17 @@ $image-size: 250px;
   .commentName[type="text"] {
     @include defaultText();
   }
-  button {
+  .addCommentButton {
     border: none;
     border-radius: 2px;
     height: 30px;
     color: $primary-color;
+  }
+  .addCommentButton:hover {
+    cursor: pointer;
+  }
+  .addCommentButton:disabled {
+    cursor: default;
   }
 }
 
@@ -383,9 +389,21 @@ footer {
     background-color: #fd5c63;
   }
 }
+.backButton,
+.backButton:visited {
+  @include defaultText();
+  text-decoration: none;
+  color: $primary-dark;
+}
+.backButtonAP,
+.backButtonAP:visited {
+  color: $light-accent;
+  text-decoration: none;
+  padding: 30px;
+}
 .createPost {
   background-color: $light-accent;
-  height: 300px;
+  min-height: 300px;
   padding: 20px;
   @include flexAndCenter();
   flex-direction: column;
@@ -398,6 +416,11 @@ footer {
   }
   .mpField {
     max-width: 40vw;
+    min-width: 40vw;
+  }
+  .mpTextArea {
+    padding: 10px;
+    min-height: 150px;
   }
   .logOut {
     margin-top: 40px;
