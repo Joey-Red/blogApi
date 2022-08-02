@@ -67,7 +67,7 @@ passport.deserializeUser(function (id, done) {
   });
 });
 router.use(passport.initialize());
-// router.use(passport.session());
+router.use(passport.session());
 
 // router.use(function (req, res, next) {
 //   res.locals.currentUser = req.user;
@@ -110,19 +110,7 @@ router.post("/comment", (req, res, next) => {
     if (err) {
       return next(err);
     }
-    // res.redirect("/");
-    // res.json({ authData: authData });
   });
-  // Post.findOneAndUpdate(
-  //   { _id: req.body.commentingOnId },
-  //   {
-  //     $push: { comments: comment },
-  //   },
-  //   { upsert: true },
-  //   function (err, docs) {
-  //     res.json(docs);
-  //   }
-  // );
 });
 // Set Post to Publish
 router.post("/publishPost", (req, res, next) => {

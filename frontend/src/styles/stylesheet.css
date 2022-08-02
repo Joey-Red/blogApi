@@ -88,9 +88,13 @@
   flex-direction: column;
 }
 
+.homepageContainer {
+  height: 100vh;
+  background-color: #cbd2d7;
+}
+
 .postContainer .blogPost {
   padding: 10px 40px 10px 40px;
-  background-color: rgb(26, 30, 33);
   min-height: 375px;
 }
 .postContainer .blogTitle {
@@ -101,12 +105,6 @@
   display: flex;
   margin: 0 auto 4px auto;
   max-width: 800px;
-}
-.postContainer .blogPost:nth-child(even) {
-  background-color: #cbd2d7;
-}
-.postContainer .blogPost:nth-child(even) .blogTitle {
-  color: #040607;
 }
 .postContainer .blogBody {
   max-width: 800px;
@@ -145,15 +143,62 @@
   max-width: 800px;
 }
 
+.postContainerContainer:nth-child(odd) {
+  background-color: rgb(26, 30, 33);
+}
+
+.postContainerContainer:nth-child(even) {
+  background-color: #cbd2d7;
+}
+.postContainerContainer:nth-child(even) .commentDetails {
+  border-bottom: solid #040607 1px;
+}
+.postContainerContainer:nth-child(even) .commentBox {
+  border: solid #040607 1px;
+}
+.postContainerContainer:nth-child(even) .commentBox h4 {
+  color: #040607;
+}
+.postContainerContainer:nth-child(even) .blogTitle {
+  color: #040607;
+}
+
+.spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #8b523b;
+  border-radius: 50%;
+  width: 33px;
+  height: 33px;
+  -webkit-animation: spin 2s linear infinite;
+          animation: spin 2s linear infinite;
+  margin: 0 auto;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .noReplies {
-  font-size: 1rem;
-  color: #8b523b;
-  font-weight: bold;
-  letter-spacing: 1px;
+  color: purple;
   width: 40vw;
   max-width: 500px;
   padding: 10px;
   border-radius: 2px;
+  z-index: 999;
+  font-size: 3rem;
 }
 
 .addCommentContainer {
@@ -173,6 +218,10 @@
   font-weight: bold;
   letter-spacing: 1px;
   margin: 0px 0px 0px calc(100% - 300px);
+}
+
+.showCommentInputButton:hover {
+  cursor: pointer;
 }
 
 .showMoreComments {
@@ -210,11 +259,16 @@
        break-inside: avoid;
 }
 
-.blogPost:nth-child(even) .commentDetails {
-  border-bottom: solid #040607 1px;
+.commentBox {
+  border: solid #cbd2d7 1px;
+  padding: 12px;
+}
+.commentBox h4 {
+  color: #cbd2d7;
 }
 
 .addComment {
+  z-index: 999;
   margin: 0px 0px 0px calc(100% - 300px);
   display: flex;
   position: absolute;
@@ -256,6 +310,8 @@
   border-radius: 2px;
   height: 30px;
   color: #040607;
+  font-size: 1rem;
+  font-weight: bolder;
 }
 .addComment .addCommentButton:hover {
   cursor: pointer;
@@ -272,6 +328,7 @@ footer {
   letter-spacing: 1px;
   color: #040607;
   padding: 10px 40px 30px 40px;
+  min-height: 120px;
   background-color: #cbd2d7;
   display: flex;
   margin: 0 auto;
@@ -373,27 +430,38 @@ footer .fishImage {
   font-weight: bold;
   letter-spacing: 1px;
   background-color: rgb(26, 30, 33);
+  height: 100%;
 }
 
 .masonryContainer,
 .masonryContainer2 {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(33.3333333333%, 1fr));
-  grid-gap: 10px;
-  grid-auto-rows: minmax(180px, auto);
-  grid-auto-flow: dense;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin: 0 auto;
+  gap: 40px;
+  flex-wrap: wrap;
   padding: 10px;
 }
 .masonryContainer .apPost,
 .masonryContainer2 .apPost {
-  background-color: #b5bcc2;
+  border: solid #cbd2d7 2px;
+  background-color: rgb(26, 30, 33);
   padding: 20px;
+  max-width: 38vw;
+  min-width: 38vw;
 }
 
 .adminPageHeader,
 .apPublished,
 .apUnpublished {
   padding: 30px;
+  text-align: center;
+}
+
+.adminPageHeader {
+  font-size: 3rem;
+  font-weight: bolder;
 }
 
 .editPost {
@@ -404,10 +472,15 @@ footer .fishImage {
 .editPost div,
 .editPost textarea,
 .editPost input {
+  opacity: 0.7;
   padding: 20px;
 }
 .editPost textarea {
   max-width: 100%;
+}
+
+.deleteComment {
+  opacity: 0.7;
 }
 
 .makePostContainer {
@@ -436,6 +509,13 @@ footer .fishImage {
   background-color: #fd5c63;
 }
 
+.badLogin {
+  color: #fd5c63;
+  display: none;
+  font-size: 1.2rem;
+  font-weight: bolder;
+}
+
 .backButton,
 .backButton:visited {
   font-size: 1rem;
@@ -451,6 +531,13 @@ footer .fishImage {
   color: #cbd2d7;
   text-decoration: none;
   padding: 30px;
+  justify-content: center;
+  display: flex;
+  border: solid #cbd2d7 1px;
+  max-width: -webkit-fit-content;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  margin: 0 auto;
 }
 
 .createPost {

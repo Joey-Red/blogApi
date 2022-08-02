@@ -1,18 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
-
+import Navbar from "./Components/NavbarSecondary";
 function CreatePost(props) {
-  let { currentUser } = props;
-  const [publishStatus, setPublishStatus] = useState(false);
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
-  const [listOfPosts, setListOfPosts] = useState([{}]);
-  const [username, setUsername] = useState("");
+  const [publishStatus, setPublishStatus] = useState(false);
+  const [currentUser, setCurrentUser] = useState("");
+
+  useEffect(() => {
+    localStorage.getItem("user");
+    setCurrentUser(localStorage.getItem("user"));
+  }, []);
 
   const handleChange = (e) => {
     setPublishStatus(e.target.checked);
   };
-  // Submit Post
+  //Log out
+  const logOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/";
+  };
   const submitPost = () => {
     Axios.post(
       "http://localhost:8080/create-post",
@@ -23,54 +31,57 @@ function CreatePost(props) {
         publishStatus: publishStatus,
       },
       { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-    ).then((res) => {
-      setListOfPosts([...listOfPosts, { postTitle, postBody, username }]);
-    });
+    );
+    window.location.href = "/signIn";
   };
-
   return (
-    <>
-      {currentUser.length > 0 ? (
-        <div className="createPost">
-          <form className="createPostForm">
-            <div className="createPostInner">
-              <div className="createPostTitle">Create Post</div>
-              <div className="titleInput">
-                <input
-                  type="text"
-                  placeholder="Title"
-                  onChange={(e) => {
-                    setPostTitle(e.target.value);
-                  }}
-                />
-              </div>
-              <div className="bodyInput">
-                <input
-                  type="text"
-                  placeholder="So this one time.."
-                  onChange={(e) => {
-                    setPostBody(e.target.value);
-                  }}
-                />
-              </div>
-              <div>
-                <label htmlFor="publish">Publish</label>
-                <input
-                  type="checkbox"
-                  name="publish"
-                  id="publish"
-                  checked={publishStatus}
-                  onChange={handleChange}
-                />
-                <button onClick={submitPost}>Submit</button>
-              </div>
-            </div>
-          </form>
+    <div className="makePostContainer">
+      <Navbar currentUser={currentUser} />
+
+      <div className="createPost">
+        <div className="h1">Create Post</div>
+        <input
+          className="mpField"
+          type="text"
+          placeholder="title"
+          onChange={(e) => {
+            setPostTitle(e.target.value);
+          }}
+        />
+        <textarea
+          className="mpField mpTextArea"
+          type="text"
+          placeholder="so this one time.."
+          onChange={(e) => {
+            setPostBody(e.target.value);
+          }}
+        />
+
+        <div>
+          <label htmlFor="publish">Publish</label>
+          <input
+            className="checkbox"
+            type="checkbox"
+            name="publish"
+            id="publish"
+            checked={publishStatus}
+            onChange={handleChange}
+          />
         </div>
-      ) : (
-        <></>
-      )}
-    </>
+
+        <button onClick={submitPost}>Submit</button>
+        <div className="logOut">
+          <div>Log Out</div>
+          <button onClick={logOut}>Log out</button>
+        </div>
+        <a className="backButton" href="/">
+          Back Home
+        </a>
+        <a className="backButton" href="/adminPage">
+          Admin Page
+        </a>
+      </div>
+    </div>
   );
 }
 

@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import AdminPage from "./AdminPage";
 import App from "./App";
 import CreatePost from "./CreatePost";
-import MakePosts from "./MakePosts";
+import SignIn from "./SignIn";
 function FrontEndRouter() {
   const [currentUser] = useState("");
   // const [listOfPosts, setListOfPosts] = useState([{}]);
@@ -19,13 +19,10 @@ function FrontEndRouter() {
             element={<AdminPage currentUser={currentUser} />}
           />
           <Route exact path="/" element={<App currentUser={currentUser} />} />
-          <Route
-            path="/createPost"
-            element={<CreatePost currentUser={currentUser} />}
-          />
+          <Route path="/createPost" element={<CreatePost />} />
           <Route
             path="/signIn"
-            element={<MakePosts currentUser={currentUser} />}
+            element={<SignIn currentUser={currentUser} />}
           />
         </Routes>
       </>

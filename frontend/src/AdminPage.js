@@ -3,8 +3,6 @@ import Axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
 function AdminPage() {
-  const [postsLoaded, setPostsLoaded] = useState(false);
-  const [pubPostsLoaded, setPubPostsLoaded] = useState(false);
   const [listOfPosts, setListOfPosts] = useState([{}]);
   const [listOfPublishedPosts, setListOfPublishedPosts] = useState([{}]);
   const [postTitle, setPostTitle] = useState("");
@@ -18,18 +16,12 @@ function AdminPage() {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     }).then((res) => {
       setListOfPosts(res.data);
-      setPostsLoaded(true);
     });
-  }, []);
-  useEffect(() => {
     Axios.get("http://localhost:8080/adminPostsPublished", {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     }).then((res) => {
       setListOfPublishedPosts(res.data);
-      setPubPostsLoaded(true);
     });
-  }, []);
-  useEffect(() => {
     Axios.get("http://localhost:8080/getComments").then((res) => {
       setListOfComments(res.data);
       setCommentsLoaded(true);
@@ -38,6 +30,30 @@ function AdminPage() {
       }
     });
   }, []);
+
+  // useEffect(() => {
+  //   Axios.get("http://localhost:8080/adminPosts", {
+  //     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  //   }).then((res) => {
+  //     setListOfPosts(res.data);
+  //   });
+  // }, []);
+  // useEffect(() => {
+  //   Axios.get("http://localhost:8080/adminPostsPublished", {
+  //     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+  //   }).then((res) => {
+  //     setListOfPublishedPosts(res.data);
+  //   });
+  // }, []);
+  // useEffect(() => {
+  //   Axios.get("http://localhost:8080/getComments").then((res) => {
+  //     setListOfComments(res.data);
+  //     setCommentsLoaded(true);
+  //     if (localStorage.getItem("user").length > 0) {
+  //       setCurrentUser(localStorage.getItem("user"));
+  //     }
+  //   });
+  // }, []);
   let deletePost = (e) => {
     Axios.post("http://localhost:8080/deletePost", {
       postId: e.target.value,
@@ -73,7 +89,9 @@ function AdminPage() {
   };
   return (
     <div className="adminPageContainer">
-      <header className="adminPageHeader">Admin Page</header>
+      <header className="adminPageHeader">
+        <h3>Admin Page</h3>{" "}
+      </header>
       <a className="backButtonAP" href="/">
         Back Home
       </a>
@@ -83,11 +101,10 @@ function AdminPage() {
           <div className="masonryContainer" id="masonryContainer">
             {listOfPosts.map((post) => {
               return (
-                <div className="apPost" key={post._id}>
+                <div className="apPost" key={uuidv4()}>
                   <div className="apUser">Username: {post.user}</div>
                   <div className="apTitle">Title: {post.title}</div>
                   <div className="apBody">Body: {post.body}</div>
-
                   <div className="editPost">
                     <button onClick={deletePost} value={post._id}>
                       Delete Post
@@ -111,7 +128,7 @@ function AdminPage() {
                       }}
                     />
                     <button onClick={editPost} value={post._id}>
-                      EDIT
+                      Submit Changes
                     </button>
                   </div>
                   <div className="apCommentDetailsContainer">
@@ -119,7 +136,7 @@ function AdminPage() {
                       listOfComments.map((comments) => {
                         if (comments.commentingOnId === post._id) {
                           return (
-                            <div key={uuidv4()} className="commentDetails">
+                            <div key={comments._id} className="commentDetails">
                               {comments.commentingOnId === post._id &&
                               comments.title.length !== 0 ? (
                                 <>{comments.title}</>
@@ -152,7 +169,7 @@ function AdminPage() {
                             </div>
                           );
                         } else {
-                          <></>;
+                          return null;
                         }
                       })
                     ) : (
@@ -171,8 +188,8 @@ function AdminPage() {
           <div className="masonryContainer2" id="masonryContainer2">
             {listOfPublishedPosts.map((post) => {
               return (
-                <>
-                  <div className="apPost" key={post._id}>
+                <div key={uuidv4()}>
+                  <div className="apPost">
                     <div className="apUser">Username: {post.user}</div>
                     <div className="apTitle">Title: {post.title}</div>
                     <div className="apBody">Body: {post.body}</div>
@@ -207,7 +224,11 @@ function AdminPage() {
                         listOfComments.map((comments) => {
                           if (comments.commentingOnId === post._id) {
                             return (
-                              <div key={uuidv4()} className="commentDetails">
+                              <div
+                                // changed key
+                                key={comments._id}
+                                className="commentDetails"
+                              >
                                 {comments.commentingOnId === post._id &&
                                 comments.title.length !== 0 ? (
                                   <>{comments.title}</>
@@ -247,7 +268,7 @@ function AdminPage() {
                               </div>
                             );
                           } else {
-                            <></>;
+                            return null;
                           }
                         })
                       ) : (
@@ -255,7 +276,7 @@ function AdminPage() {
                       )}
                     </div>
                   </div>
-                </>
+                </div>
               );
             })}
           </div>

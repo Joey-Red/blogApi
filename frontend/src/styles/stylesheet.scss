@@ -103,12 +103,16 @@ $image-size: 250px;
   justify-content: center;
   flex-direction: column;
 }
+.homepageContainer {
+  height: 100vh;
+  background-color: $light-accent;
+}
 
 // Post Container
 .postContainer {
   .blogPost {
     padding: 10px 40px 10px 40px;
-    background-color: $primary-dark;
+    // background-color: $primary-dark;
     min-height: 375px;
   }
   .blogTitle {
@@ -120,12 +124,12 @@ $image-size: 250px;
     margin: 0 auto 4px auto;
     max-width: 800px;
   }
-  .blogPost:nth-child(even) {
-    background-color: $light-accent;
-    .blogTitle {
-      color: $primary-color;
-    }
-  }
+  // .blogPost:nth-child(even) {
+  //   background-color: $light-accent;
+  //   .blogTitle {
+  //     color: $primary-color;
+  //   }
+  // }
   .blogBody {
     max-width: 800px;
     margin: 0 auto 10px auto;
@@ -152,13 +156,54 @@ $image-size: 250px;
     max-width: 800px;
   }
 }
+.postContainerContainer:nth-child(odd) {
+  background-color: $primary-dark;
+}
+.postContainerContainer:nth-child(even) {
+  .commentDetails {
+    border-bottom: solid $primary-color 1px;
+  }
+  .commentBox {
+    border: solid $primary-color 1px;
+    h4 {
+      color: $primary-color;
+    }
+  }
+  background-color: $light-accent;
+  .blogTitle {
+    color: $primary-color;
+  }
+}
+//If posts are loading..
+.spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid $dark-accent;
+  border-radius: 50%;
+  width: 33px;
+  height: 33px;
+  animation: spin 2s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .noReplies {
-  @include defaultText();
+  // @include defaultText();
+  color: purple;
   width: 40vw;
   max-width: 500px;
   padding: 10px;
   border-radius: 2px;
+  z-index: 999;
+  font-size: 3rem;
 }
+
 .addCommentContainer {
   display: none;
 }
@@ -171,6 +216,9 @@ $image-size: 250px;
   border: none;
   @include defaultText();
   margin: 0px 0px 0px calc(100% - 300px);
+}
+.showCommentInputButton:hover {
+  cursor: pointer;
 }
 
 .showMoreComments {
@@ -196,13 +244,27 @@ $image-size: 250px;
   border-bottom: solid $light-accent 1px;
   break-inside: avoid;
 }
-.blogPost:nth-child(even) {
-  .commentDetails {
-    border-bottom: solid $primary-color 1px;
+.commentBox {
+  border: solid $light-accent 1px;
+  padding: 12px;
+  h4 {
+    color: $light-accent;
   }
 }
+// .blogPost:nth-child(even) {
+//   .commentDetails {
+//     border-bottom: solid $primary-color 1px;
+//   }
+//   .commentBox {
+//     border: solid $primary-color 1px;
+//     h4 {
+//       color: $primary-color;
+//     }
+//   }
+// }
 
 .addComment {
+  z-index: 999;
   margin: 0px 0px 0px calc(100% - 300px);
   display: flex;
   position: absolute;
@@ -240,6 +302,8 @@ $image-size: 250px;
     border-radius: 2px;
     height: 30px;
     color: $primary-color;
+    font-size: 1rem;
+    font-weight: bolder;
   }
   .addCommentButton:hover {
     cursor: pointer;
@@ -254,6 +318,7 @@ footer {
   @include defaultText();
   color: $primary-color;
   padding: 10px 40px 30px 40px;
+  min-height: 120px;
   background-color: $light-accent;
   display: flex;
   margin: 0 auto;
@@ -334,24 +399,36 @@ footer {
 .adminPageContainer {
   @include defaultText();
   background-color: $primary-dark;
+  // background-color: $primary-color;
+  height: 100%;
 }
 .masonryContainer,
 .masonryContainer2 {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(calc(100% / 3), 1fr));
-  grid-gap: 10px;
-  grid-auto-rows: minmax(180px, auto);
-  grid-auto-flow: dense;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin: 0 auto;
+  gap: 40px;
+  flex-wrap: wrap;
   padding: 10px;
   .apPost {
-    background-color: $secondary-color;
+    border: solid $light-accent 2px;
+    // background-color: $secondary-color;
+    background-color: $primary-dark;
     padding: 20px;
+    max-width: 38vw;
+    min-width: 38vw;
   }
 }
 .adminPageHeader,
 .apPublished,
 .apUnpublished {
   padding: 30px;
+  text-align: center;
+}
+.adminPageHeader {
+  font-size: 3rem;
+  font-weight: bolder;
 }
 .editPost {
   display: flex;
@@ -360,11 +437,15 @@ footer {
   div,
   textarea,
   input {
+    opacity: 0.7;
     padding: 20px;
   }
   textarea {
     max-width: 100%;
   }
+}
+.deleteComment {
+  opacity: 0.7;
 }
 // Make Post / Sign in page Container
 .makePostContainer {
@@ -389,6 +470,12 @@ footer {
     background-color: #fd5c63;
   }
 }
+.badLogin {
+  color: #fd5c63;
+  display: none;
+  font-size: 1.2rem;
+  font-weight: bolder;
+}
 .backButton,
 .backButton:visited {
   @include defaultText();
@@ -400,6 +487,11 @@ footer {
   color: $light-accent;
   text-decoration: none;
   padding: 30px;
+  justify-content: center;
+  display: flex;
+  border: solid $light-accent 1px;
+  max-width: fit-content;
+  margin: 0 auto;
 }
 .createPost {
   background-color: $light-accent;
