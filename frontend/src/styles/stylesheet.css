@@ -192,13 +192,11 @@
   }
 }
 .noReplies {
-  color: purple;
   width: 40vw;
   max-width: 500px;
   padding: 10px;
   border-radius: 2px;
   z-index: 999;
-  font-size: 3rem;
 }
 
 .addCommentContainer {

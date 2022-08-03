@@ -7,7 +7,7 @@ function AdminPage() {
   const [listOfPublishedPosts, setListOfPublishedPosts] = useState([{}]);
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser] = useState("");
   const [listOfComments, setListOfComments] = useState([{}]);
   const [commentsLoaded, setCommentsLoaded] = useState(false);
 
@@ -15,18 +15,33 @@ function AdminPage() {
     Axios.get("http://localhost:8080/adminPosts", {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     }).then((res) => {
-      setListOfPosts(res.data);
+      if (res.data === 403) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.href = "/signIn";
+      } else {
+        setListOfPosts(res.data);
+      }
     });
     Axios.get("http://localhost:8080/adminPostsPublished", {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     }).then((res) => {
-      setListOfPublishedPosts(res.data);
+      if (res.data === 403) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.href = "/signIn";
+      } else {
+        setListOfPublishedPosts(res.data);
+      }
     });
     Axios.get("http://localhost:8080/getComments").then((res) => {
-      setListOfComments(res.data);
-      setCommentsLoaded(true);
-      if (localStorage.getItem("user").length > 0) {
-        setCurrentUser(localStorage.getItem("user"));
+      if (res.data === 403) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.location.href = "/signIn";
+      } else {
+        setListOfComments(res.data);
+        setCommentsLoaded(true);
       }
     });
   }, []);
@@ -36,6 +51,7 @@ function AdminPage() {
   //     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   //   }).then((res) => {
   //     setListOfPosts(res.data);
+  //     console.log(res.data);
   //   });
   // }, []);
   // useEffect(() => {
@@ -49,9 +65,6 @@ function AdminPage() {
   //   Axios.get("http://localhost:8080/getComments").then((res) => {
   //     setListOfComments(res.data);
   //     setCommentsLoaded(true);
-  //     if (localStorage.getItem("user").length > 0) {
-  //       setCurrentUser(localStorage.getItem("user"));
-  //     }
   //   });
   // }, []);
   let deletePost = (e) => {

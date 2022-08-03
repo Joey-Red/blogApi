@@ -8,11 +8,9 @@ const Comment = require("../Schematics/Comment");
 const LocalStrategy = require("passport-local").Strategy;
 const jwt = require("jsonwebtoken");
 const passportJWT = require("passport-jwt");
-const JWTStrategy = passportJWT.Strategy;
-const ExtractJWT = passportJWT.ExtractJwt;
 const dotenv = require("dotenv");
 dotenv.config();
-mongoose.set("debug", true);
+// mongoose.set("debug", true);
 
 // Passport
 passport.use(
@@ -37,25 +35,6 @@ passport.use(
     });
   })
 );
-// passport.use(
-//   new JWTStrategy(
-//     {
-//       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-//       secretOrKey: process.env.SECRET_KEY,
-//     },
-//     function (jwtPayload, cb) {
-//       console.log("peepo", jwtPayload, cb);
-//       //find the user in db if needed. This functionality may be omitted if you store everything you'll need in JWT payload.
-//       return UserModel.findOneById(jwtPayload.id)
-//         .then((user) => {
-//           return cb(null, user);
-//         })
-//         .catch((err) => {
-//           return cb(err);
-//         });
-//     }
-//   )
-// );
 
 passport.serializeUser(function (user, done) {
   done(null, user.id);
@@ -274,7 +253,6 @@ router.post("/log-in", function (req, res, next) {
       const token = jwt.sign({ user }, process.env.SECRET_KEY, {
         expiresIn: "1200s",
       });
-      // console.log(token);
       return res.json({ user, token });
     });
   })(req, res);
@@ -317,24 +295,25 @@ router.get("/getComments", (req, res) => {
 });
 router.get("/adminPosts", verifyToken, (req, res) => {
   jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
+    if (!err) {
+      Post.find({ publish: false }, (err, result) => {
+        if (err) {
+          res.json(err);
+        }
+        res.json(result);
+      });
+    }
     if (err) {
-      // res.json(403); <-- Crashes app
-      // here
+      if (err.name === "TokenExpiredError") {
+        res.json(403);
+      }
       console.log(err);
     }
-    //  publish: false if you want only false inside {}
-    Post.find({ publish: false }, (err, result) => {
-      if (err) {
-        res.json(err);
-      }
-      res.json(result);
-    });
   });
 });
 router.get("/adminPostsPublished", verifyToken, (req, res) => {
   jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
     if (err) {
-      // res.json(403); <-- Crashes app
       console.log(err);
     }
     Post.find({ publish: true }, (err, result) => {
