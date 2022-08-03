@@ -70,7 +70,7 @@ function App() {
               </>
             )}
           </div>
-          <Footer />
+          <Footer postsLoaded={postsLoaded} />
         </div>
       </div>
     </div>

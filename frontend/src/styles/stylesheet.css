@@ -8,6 +8,7 @@
 }
 
 .navContainer {
+  overflow: hidden;
   font-size: 1rem;
   color: #8b523b;
   font-weight: bold;
@@ -19,6 +20,10 @@
   background-color: #cbd2d7;
   color: #040607;
   height: 400px;
+}
+.navContainer a {
+  z-index: 9999;
+  max-height: 130px;
 }
 .navContainer .navInner {
   display: flex;
@@ -40,6 +45,7 @@
   align-content: center;
   margin: 12px 40px 8px 40px;
   height: 40px;
+  z-index: 9999;
 }
 .navContainer .myName {
   font-size: 1.3rem;
@@ -80,6 +86,16 @@
 .navContainer .articleBody {
   font-size: 0.8rem;
   margin-left: 30px;
+}
+
+.design {
+  height: 400px;
+  width: 1000px;
+  background-color: #8b523b;
+  position: absolute;
+  right: -290px;
+  top: 0;
+  transform: rotateZ(45deg);
 }
 
 .layoutContainer {
@@ -398,28 +414,109 @@ footer .fishImage {
     transform: scaleX(-1);
   }
 }
+@media (max-width: 1337px) {
+  .design {
+    height: 300px;
+    width: 1000px;
+    right: -250px;
+  }
+}
 @media (max-width: 1136px) {
   .workPic {
     max-height: 200px;
     max-width: 200px;
   }
-}
-@media (max-width: 924px) {
-  .workPic {
-    max-height: 160px;
-    max-width: 160px;
+  .design {
+    height: 250px;
+    width: 1000px;
+    right: -250px;
   }
 }
 @media (max-width: 924px) {
   .workPic {
     max-height: 160px;
     max-width: 160px;
+  }
+  .design {
+    height: 200px;
+    width: 1000px;
+    right: -260px;
+  }
+}
+@media (max-width: 798px) {
+  .design {
+    height: 200px;
+    width: 1000px;
+    right: -268px;
   }
 }
 @media (max-width: 717px) {
   .workPic {
     max-height: 130px;
     max-width: 130px;
+  }
+  .design {
+    height: 174px;
+    width: 1000px;
+    right: -285px;
+  }
+}
+@media (max-width: 698px) {
+  .design {
+    height: 174px;
+    width: 1000px;
+    right: -312px;
+  }
+}
+@media (max-width: 654px) {
+  .design {
+    height: 174px;
+    width: 1000px;
+    right: -320px;
+  }
+}
+@media (max-width: 575px) {
+  .design {
+    height: 174px;
+    width: 1000px;
+    right: -330px;
+  }
+}
+@media (max-width: 510px) {
+  .attention {
+    z-index: 9999;
+  }
+  .navContainer .date {
+    color: #040607;
+    font-weight: bolder;
+    font-size: large;
+  }
+}
+@media (max-width: 450px) {
+  .navContainer {
+    height: -webkit-max-content;
+    height: -moz-max-content;
+    height: max-content;
+  }
+}
+@media (max-width: 394px) {
+  .design {
+    height: 174px;
+    width: 1000px;
+    right: -355px;
+  }
+  .navContainer .articleTitle {
+    font-size: 2rem;
+  }
+  .navContainer .articleBody {
+    width: 200px;
+  }
+}
+@media (max-width: 375px) {
+  .design {
+    height: 174px;
+    width: 1000px;
+    right: -366px;
   }
 }
 .adminPageContainer {

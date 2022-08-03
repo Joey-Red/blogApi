@@ -1,13 +1,7 @@
 import React from "react";
-import WorkPic from "../img/workPic.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
 function NavbarSecondary(props) {
-  let { currentUser } = props;
-  const logOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-  };
   let date = new Date().toJSON().slice(0, 10).replace(/-/g, "/");
   return (
     <>
@@ -38,6 +32,7 @@ function NavbarSecondary(props) {
           <a href="/signIn">
             <div className="workPic"></div>
           </a>
+          <div className="design"></div>
         </div>
       </div>
     </>

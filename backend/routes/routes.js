@@ -7,7 +7,6 @@ const Post = require("../Schematics/Post");
 const Comment = require("../Schematics/Comment");
 const LocalStrategy = require("passport-local").Strategy;
 const jwt = require("jsonwebtoken");
-const passportJWT = require("passport-jwt");
 const dotenv = require("dotenv");
 dotenv.config();
 // mongoose.set("debug", true);
@@ -48,11 +47,6 @@ passport.deserializeUser(function (id, done) {
 router.use(passport.initialize());
 router.use(passport.session());
 
-// router.use(function (req, res, next) {
-//   res.locals.currentUser = req.user;
-//   next();
-// });
-
 // Create Post
 router.post("/create-post", verifyToken, (req, res, next) => {
   jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
@@ -70,8 +64,6 @@ router.post("/create-post", verifyToken, (req, res, next) => {
           return next(err);
         }
         console.log("Success");
-        // res.redirect("/");
-        // res.json({ authData: authData });
       });
     }
   });
@@ -98,7 +90,6 @@ router.post("/publishPost", (req, res, next) => {
     {
       publish: true,
     },
-    // { upsert: true },
     function (err, docs) {
       res.json(docs);
     }
@@ -111,45 +102,30 @@ router.post("/unpublishPost", (req, res, next) => {
     {
       publish: false,
     },
-    // { upsert: true },
     function (err, docs) {
       res.json(docs);
     }
   );
 });
-// Sign Up to comment || Comment as Anon?
-router.post("/sign-up", async (req, res, next) => {
-  bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
-    if (err) {
-      return next(err);
-    }
-    const user = new User({
-      username: req.body.username,
-      password: hashedPassword,
-      // need to make if admin: admin password
-      isAdmin: req.body.isAdmin,
-    }).save((err) => {
-      if (err) {
-        return next(err);
-      }
-    });
-    // res.send(req.body.username + " Created");
-  });
-});
-
-// router.post("/secret", async (req, res) => {
-//   if (req.body.secret === `${process.env.SECRET_WORD}`) {
-//     const doc = await User.findOne(req.user);
-//     doc.isMember = true;
-//     await doc.save();
-//     res.redirect("/");
-//   } else {
-//     console.log("Failure");
-//     res.redirect("/");
-//   }
+// Sign Up to comment || Comment as Anon
+// router.post("/sign-up", async (req, res, next) => {
+//   bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
+//     if (err) {
+//       return next(err);
+//     }
+//     const user = new User({
+//       username: req.body.username,
+//       password: hashedPassword,
+//       isAdmin: req.body.isAdmin,
+//     }).save((err) => {
+//       if (err) {
+//         return next(err);
+//       }
+//     });
+//   });
 // });
+// Sign up is disabled. Commenters do not have to sign up.
 
-//Delete Post and Refresh Page
 router.post("/deletePost", (req, res, next) => {
   Post.findByIdAndRemove(req.body.postId, function deleteMessage(err) {
     if (err) {
@@ -195,20 +171,6 @@ router.post("/editPost", (req, res, next) => {
   );
 });
 
-// GET Sign Up Page
-// router.get("/sign-up", (req, res) => res.render("sign-up-form"));
-
-//GET Create Post Page
-// router.get("/create-post", (req, res) => {
-//   if (req.user) {
-//     res.render("create-post-form", { user: req.user });
-//   } else {
-//     res.redirect("/");
-//   }
-// });
-
-// "GET" Log out page (log out and go home)
-// Not sure exactly how to test this one w/o act logging in
 router.get("/log-out", (req, res) => {
   req.logout(function (err) {
     if (err) {
@@ -219,25 +181,6 @@ router.get("/log-out", (req, res) => {
   });
 });
 
-// router.post(
-//   "/log-in",
-//   passport.authenticate("local", {
-//     // failureRedirect: "/log-in",
-//     // failureMessage: true,
-//   }),
-//   function (req, res) {
-//     if (req.user) {
-//       jwt.sign({ user: req.user }, process.env.SECRET_KEY, (err, token) => {
-//         res.json({
-//           token: token,
-//         });
-//       });
-//       res.send(req.user.username);
-//     } else {
-//       res.json(err);
-//     }
-//   }
-// );
 router.post("/log-in", function (req, res, next) {
   passport.authenticate("local", { session: false }, (err, user, info) => {
     if (err || !user) {
@@ -340,8 +283,6 @@ router.get("/getReplies", (req, res) => {
     res.json(result);
   });
 });
-router.get("/", function (req, res) {
-  // res.send("Hello world");
-});
+router.get("/", function (req, res) {});
 
 module.exports = router;
