@@ -33,12 +33,12 @@ app.use(session({ secret: "dogs", resave: false, saveUninitialized: true }));
 // app.use(passport.initialize());
 // app.use(passport.session());
 app.use(compression());
+app.use(express.static("public"));
 
 app.use(function (req, res, next) {
   res.locals.currentUser = req.user;
   next();
 });
-
 // Routes
 app.use("/", routeConfig);
 
