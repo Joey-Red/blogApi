@@ -13,7 +13,9 @@
     "node": "16.14.2"
   },
   "scripts": {
-    "start": "node App.js"
+    "start": "node ./bin/www",
+    "devstart": "nodemon ./bin/www",
+    "serverstart": "DEBUG=blogApi:* npm run devstart"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
