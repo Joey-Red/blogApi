@@ -1,1 +1,1 @@
-web: cd blogapi/frontend && node server.js
+web: cd frontend && node server.js
