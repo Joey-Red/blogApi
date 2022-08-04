@@ -1,0 +1,36 @@
+{
+  "name": "blogapi",
+  "version": "1.0.0",
+  "description": "REST API back end, React front end full stack MERN app monorepo",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "if [ $CLIENT_ENV ]; then npm run postinstall-client; elif [ $SERVER_ENV ]; then npm run postinstall-server; else echo no environment detected, please set CLIENT_ENV or SERVER_ENV; fi",
+    "postinstall-client": "cd frontend && npm install && npm run build",
+    "postinstall-server": "cd backend && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joey-Red/blogApi.git"
+  },
+  "keywords": [
+    "MERN",
+    "Mongoose",
+    "MongoDB",
+    "Express",
+    "React",
+    "Node",
+    "SASS",
+    "Passport",
+    "JSONWEBTOKENS",
+    "JWT",
+    "Axios",
+    "bcrypt",
+    "Router"
+  ],
+  "author": "Joey Dalrymple",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joey-Red/blogApi/issues"
+  },
+  "homepage": "https://github.com/Joey-Red/blogApi#readme"
+}
