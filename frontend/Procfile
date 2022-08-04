@@ -1,1 +1,1 @@
-web: cd frontend && index.js
+web: cd frontend && npm run build
