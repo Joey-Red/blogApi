@@ -414,11 +414,22 @@ footer .fishImage {
     transform: scaleX(-1);
   }
 }
-@media (max-width: 1337px) {
+@media (max-width: 2488px) {
+  .workPic {
+    max-height: 220px;
+    max-width: 220px;
+  }
   .design {
     height: 300px;
     width: 1000px;
-    right: -250px;
+    right: -220px;
+  }
+}
+@media (max-width: 1319px) {
+  .design {
+    height: 280px;
+    width: 1000px;
+    right: -234px;
   }
 }
 @media (max-width: 1136px) {
@@ -429,7 +440,7 @@ footer .fishImage {
   .design {
     height: 250px;
     width: 1000px;
-    right: -250px;
+    right: -245px;
   }
 }
 @media (max-width: 924px) {
