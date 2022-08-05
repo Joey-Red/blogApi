@@ -194,7 +194,8 @@ router.post("/log-in", function (req, res, next) {
         res.send(err);
       }
       const token = jwt.sign({ user }, process.env.SECRET_KEY, {
-        expiresIn: "1200s",
+        // expiresIn: "1200s",
+        expiresIn: "30s",
       });
       return res.json({ user, token });
     });
