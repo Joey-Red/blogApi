@@ -40,7 +40,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    Axios.get("http://localhost:3000/getComments")
+    Axios.get("https://fish-blog-api-server.herokuapp.com/getComments")
       .then((res) => {
         setListOfComments(res.data);
         setCommentsLoaded(true);
