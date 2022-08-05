@@ -49,8 +49,11 @@ router.use(passport.session());
 
 // Create Post
 router.post("/create-post", verifyToken, (req, res, next) => {
+  console.log("Ran create-post back end");
   jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
+    console.log("Ran jwt.verify back end");
     if (err) {
+      console.log("Was err with jwt");
       res.sendStatus(403);
     } else {
       const post = new Post({
