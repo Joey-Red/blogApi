@@ -34,7 +34,7 @@ function CreatePost(props) {
       { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
     ).then();
     console.log("submitPost triggered");
-    window.location.href = "/signIn";
+    // window.location.href = "/signIn";
   };
   return (
     <div className="makePostContainer">
