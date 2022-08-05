@@ -20,8 +20,10 @@ mongoose.connect(
       console.log(err);
       return;
     }
+    console.log("No Err Connecting to DB");
   }
 );
+
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongo connection error"));
 // Middleware
@@ -42,5 +44,5 @@ app.use(function (req, res, next) {
 // Routes
 app.use("/", routeConfig);
 
-app.listen(8080, () => console.log("app listening on port 8080!"));
+app.listen(8080, () => console.log("app listening"));
 module.exports = app;
