@@ -191,6 +191,7 @@ $image-size: 250px;
 }
 //If posts are loading..
 .spinner {
+  z-index: 9999;
   border: 8px solid #f3f3f3;
   border-top: 8px solid $dark-accent;
   border-radius: 50%;

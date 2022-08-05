@@ -21,9 +21,9 @@ function App() {
   // Fetch Posts
 
   //http://localhost:3000/comment
-
+  // https://fish-blog-api-server.herokuapp.com
   useEffect(() => {
-    Axios.get("https://fish-blog-api-server.herokuapp.com/getPosts")
+    Axios.get("http://localhost:3000/getPosts")
       .then((res) => {
         setListOfPosts(res.data);
         setPostsLoaded(true);
@@ -40,7 +40,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    Axios.get("https://fish-blog-api-server.herokuapp.com/getComments")
+    Axios.get("http://localhost:3000/getComments")
       .then((res) => {
         setListOfComments(res.data);
         setCommentsLoaded(true);

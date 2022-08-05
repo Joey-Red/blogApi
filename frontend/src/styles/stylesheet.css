@@ -180,6 +180,7 @@
 }
 
 .spinner {
+  z-index: 9999;
   border: 8px solid #f3f3f3;
   border-top: 8px solid #8b523b;
   border-radius: 50%;

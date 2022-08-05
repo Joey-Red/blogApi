@@ -23,7 +23,7 @@ function CreatePost(props) {
   };
   const submitPost = () => {
     Axios.post(
-      "https://fish-blog-api-client.herokuapp.com/create-post",
+      "https://fish-blog-api-server.herokuapp.com/create-post",
       {
         postTitle: postTitle,
         postBody: postBody,
