@@ -21,7 +21,7 @@ function SignIn() {
 
   // Log In
   const logIn = () => {
-    Axios.post("http://localhost:8080/log-in", {
+    Axios.post("https://fish-blog-api-client.herokuapp.com/log-in", {
       username: logInUsername,
       password: logInPw,
     })

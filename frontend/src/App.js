@@ -20,29 +20,33 @@ function App() {
 
   // Fetch Posts
   useEffect(() => {
-    Axios.get("http://localhost:8080/getPosts").then((res) => {
-      setListOfPosts(res.data);
-      setPostsLoaded(true);
-      if (
-        localStorage.getItem("user") !== null &&
-        localStorage.getItem("user") !== undefined
-      ) {
-        setCurrentUser(localStorage.getItem("user"));
+    Axios.get("https://fish-blog-api-client.herokuapp.com/getPosts").then(
+      (res) => {
+        setListOfPosts(res.data);
+        setPostsLoaded(true);
+        if (
+          localStorage.getItem("user") !== null &&
+          localStorage.getItem("user") !== undefined
+        ) {
+          setCurrentUser(localStorage.getItem("user"));
+        }
       }
-    });
+    );
   }, []);
 
   useEffect(() => {
-    Axios.get("http://localhost:8080/getComments").then((res) => {
-      setListOfComments(res.data);
-      setCommentsLoaded(true);
-      if (
-        localStorage.getItem("user") !== null &&
-        localStorage.getItem("user") !== undefined
-      ) {
-        setCurrentUser(localStorage.getItem("user"));
+    Axios.get("https://fish-blog-api-client.herokuapp.com/getComments").then(
+      (res) => {
+        setListOfComments(res.data);
+        setCommentsLoaded(true);
+        if (
+          localStorage.getItem("user") !== null &&
+          localStorage.getItem("user") !== undefined
+        ) {
+          setCurrentUser(localStorage.getItem("user"));
+        }
       }
-    });
+    );
   }, []);
   return (
     <div className="App">

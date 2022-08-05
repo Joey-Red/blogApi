@@ -12,7 +12,7 @@ function AdminPage() {
   const [commentsLoaded, setCommentsLoaded] = useState(false);
 
   useEffect(() => {
-    Axios.get("http://localhost:8080/adminPosts", {
+    Axios.get("https://fish-blog-api-client.herokuapp.com/adminPosts", {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     }).then((res) => {
       if (res.data === 403) {
@@ -23,9 +23,12 @@ function AdminPage() {
         setListOfPosts(res.data);
       }
     });
-    Axios.get("http://localhost:8080/adminPostsPublished", {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    }).then((res) => {
+    Axios.get(
+      "https://fish-blog-api-client.herokuapp.com/adminPostsPublished",
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      }
+    ).then((res) => {
       if (res.data === 403) {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -34,20 +37,22 @@ function AdminPage() {
         setListOfPublishedPosts(res.data);
       }
     });
-    Axios.get("http://localhost:8080/getComments").then((res) => {
-      if (res.data === 403) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        window.location.href = "/signIn";
-      } else {
-        setListOfComments(res.data);
-        setCommentsLoaded(true);
+    Axios.get("https://fish-blog-api-client.herokuapp.com/getComments").then(
+      (res) => {
+        if (res.data === 403) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          window.location.href = "/signIn";
+        } else {
+          setListOfComments(res.data);
+          setCommentsLoaded(true);
+        }
       }
-    });
+    );
   }, []);
 
   // useEffect(() => {
-  //   Axios.get("http://localhost:8080/adminPosts", {
+  //   Axios.get("https://fish-blog-api-client.herokuapp.com/adminPosts", {
   //     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   //   }).then((res) => {
   //     setListOfPosts(res.data);
@@ -55,44 +60,44 @@ function AdminPage() {
   //   });
   // }, []);
   // useEffect(() => {
-  //   Axios.get("http://localhost:8080/adminPostsPublished", {
+  //   Axios.get("https://fish-blog-api-client.herokuapp.com/adminPostsPublished", {
   //     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
   //   }).then((res) => {
   //     setListOfPublishedPosts(res.data);
   //   });
   // }, []);
   // useEffect(() => {
-  //   Axios.get("http://localhost:8080/getComments").then((res) => {
+  //   Axios.get("https://fish-blog-api-client.herokuapp.com/getComments").then((res) => {
   //     setListOfComments(res.data);
   //     setCommentsLoaded(true);
   //   });
   // }, []);
   let deletePost = (e) => {
-    Axios.post("http://localhost:8080/deletePost", {
+    Axios.post("https://fish-blog-api-client.herokuapp.com/deletePost", {
       postId: e.target.value,
     });
     alert("Request to delete post submitted.");
   };
   let deleteComment = (e) => {
-    Axios.post("http://localhost:8080/deleteComment", {
+    Axios.post("https://fish-blog-api-client.herokuapp.com/deleteComment", {
       commentId: e.target.value,
     });
     alert("Request to delete comment submitted.");
   };
   let publishPost = (e) => {
-    Axios.post("http://localhost:8080/publishPost", {
+    Axios.post("https://fish-blog-api-client.herokuapp.com/publishPost", {
       postId: e.target.value,
     });
     alert("Request to publish post submitted.");
   };
   let unpublishPost = (e) => {
-    Axios.post("http://localhost:8080/unpublishPost", {
+    Axios.post("https://fish-blog-api-client.herokuapp.com/unpublishPost", {
       postId: e.target.value,
     });
     alert("Request to unpublish post submitted.");
   };
   let editPost = (e) => {
-    Axios.post("http://localhost:8080/editPost", {
+    Axios.post("https://fish-blog-api-client.herokuapp.com/editPost", {
       updateId: e.target.value,
       postTitle: postTitle,
       postBody: postBody,
