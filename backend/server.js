@@ -20,7 +20,6 @@ mongoose.connect(
       console.log(err);
       return;
     }
-    console.log("No Err Connecting to DB");
   }
 );
 
