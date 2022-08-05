@@ -21,20 +21,20 @@ function SignIn() {
 
   // Log In
   const logIn = () => {
-    Axios.post("https://fish-blog-api-client.herokuapp.com/log-in", {
+    Axios.post("https://fish-blog-api-server.herokuapp.com/log-in", {
       username: logInUsername,
       password: logInPw,
     })
-      .catch(function (error) {
-        if (error.response.status === 400) {
-          document.getElementById("badLogin").style.display = "flex";
-        }
-      })
       .then((res) => {
         setCurrentUser(res.data.user.username);
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", res.data.user.username);
         window.location.href = "/createPost";
+      })
+      .catch(function (error) {
+        if (error.response.status === 400) {
+          document.getElementById("badLogin").style.display = "flex";
+        }
       });
   };
 

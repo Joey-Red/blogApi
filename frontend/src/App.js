@@ -19,9 +19,12 @@ function App() {
   }, []);
 
   // Fetch Posts
+
+  //http://localhost:3000/comment
+
   useEffect(() => {
-    Axios.get("https://fish-blog-api-client.herokuapp.com/getPosts").then(
-      (res) => {
+    Axios.get("https://fish-blog-api-server.herokuapp.com/getPosts")
+      .then((res) => {
         setListOfPosts(res.data);
         setPostsLoaded(true);
         if (
@@ -30,13 +33,15 @@ function App() {
         ) {
           setCurrentUser(localStorage.getItem("user"));
         }
-      }
-    );
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   }, []);
 
   useEffect(() => {
-    Axios.get("https://fish-blog-api-client.herokuapp.com/getComments").then(
-      (res) => {
+    Axios.get("https://fish-blog-api-server.herokuapp.com/getComments")
+      .then((res) => {
         setListOfComments(res.data);
         setCommentsLoaded(true);
         if (
@@ -45,8 +50,10 @@ function App() {
         ) {
           setCurrentUser(localStorage.getItem("user"));
         }
-      }
-    );
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
   }, []);
   return (
     <div className="App">
