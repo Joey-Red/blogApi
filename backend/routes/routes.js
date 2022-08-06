@@ -194,8 +194,7 @@ router.post("/log-in", function (req, res, next) {
         res.send(err);
       }
       const token = jwt.sign({ user }, process.env.SECRET_KEY, {
-        // expiresIn: "1200s",
-        expiresIn: "30s",
+        expiresIn: "1200s",
       });
       return res.json({ user, token });
     });
@@ -204,7 +203,6 @@ router.post("/log-in", function (req, res, next) {
 // Authorization: Bearer <access_token>
 // Verify Token
 function verifyToken(req, res, next) {
-  console.log("Ran verifytoken");
   // Get auth header value
   const bearerHeader = req.headers["authorization"];
   // Check if bearer is undefined
