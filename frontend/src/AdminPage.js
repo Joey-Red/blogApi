@@ -61,27 +61,6 @@ function AdminPage() {
       });
   }, []);
 
-  // useEffect(() => {
-  //   Axios.get("https://fish-blog-api-server.herokuapp.com/adminPosts", {
-  //     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-  //   }).then((res) => {
-  //     setListOfPosts(res.data);
-  //     console.log(res.data);
-  //   });
-  // }, []);
-  // useEffect(() => {
-  //   Axios.get("https://fish-blog-api-server.herokuapp.com/adminPostsPublished", {
-  //     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-  //   }).then((res) => {
-  //     setListOfPublishedPosts(res.data);
-  //   });
-  // }, []);
-  // useEffect(() => {
-  //   Axios.get("https://fish-blog-api-server.herokuapp.com/getComments").then((res) => {
-  //     setListOfComments(res.data);
-  //     setCommentsLoaded(true);
-  //   });
-  // }, []);
   let deletePost = (e) => {
     Axios.post("https://fish-blog-api-server.herokuapp.com/deletePost", {
       postId: e.target.value,

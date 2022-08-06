@@ -1,5 +1,4 @@
 const express = require("express");
-const proxy = require("http-proxy-middleware");
 const path = require("path");
 const cors = require("cors");
 

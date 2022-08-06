@@ -32,21 +32,19 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet());
-// app.use(session({ secret: "dogs", resave: false, saveUninitialized: true }));
 
 app.use(
   session({
     cookie: { maxAge: 86400000 },
     store: new MemoryStore({
-      checkPeriod: 86400000, // prune expired entries every 24h
+      checkPeriod: 86400000,
     }),
     resave: false,
+    saveUninitialized: true,
     secret: "dogs",
   })
 );
 
-// app.use(passport.initialize());
-// app.use(passport.session());
 app.use(compression());
 app.use(express.static("public"));
 

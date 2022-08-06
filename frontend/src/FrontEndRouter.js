@@ -6,8 +6,6 @@ import CreatePost from "./CreatePost";
 import SignIn from "./SignIn";
 function FrontEndRouter() {
   const [currentUser] = useState("");
-  // const [listOfPosts, setListOfPosts] = useState([{}]);
-  // const [postsLoaded, setPostsLoaded] = useState(false);
 
   return (
     <div className="Routes">

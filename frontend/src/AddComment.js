@@ -22,7 +22,6 @@ function AddComment(props) {
 
   // Add comment to post
   let addComment = (e) => {
-    // Axios.post("http://localhost:8080/comment", {
     Axios.post("https://fish-blog-api-server.herokuapp.com/comment", {
       commentingOnId: e.target.value,
       username: commentName,

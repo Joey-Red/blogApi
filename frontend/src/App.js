@@ -19,9 +19,6 @@ function App() {
   }, []);
 
   // Fetch Posts
-
-  //http://localhost:3000/comment
-  // https://fish-blog-api-server.herokuapp.com
   useEffect(() => {
     Axios.get("https://fish-blog-api-server.herokuapp.com/getPosts")
       .then((res) => {
