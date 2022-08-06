@@ -43,6 +43,9 @@ function CreatePost(props) {
         ) {
           alert("Log in expired, please log in again.");
         }
+      })
+      .then((res) => {
+        window.location.href = "/signIn";
       });
   };
   return (
