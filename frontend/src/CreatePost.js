@@ -22,7 +22,6 @@ function CreatePost(props) {
     window.location.href = "/";
   };
   const submitPost = () => {
-    console.log("submitPost triggered");
     Axios.post(
       "https://fish-blog-api-server.herokuapp.com/create-post",
       {
@@ -32,9 +31,15 @@ function CreatePost(props) {
         publishStatus: publishStatus,
       },
       { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-    ).then();
-    console.log("submitPost triggered");
-    // window.location.href = "/signIn";
+    )
+      .then((res) => {
+        window.location.href = "/signIn";
+      })
+      .catch(function (error) {
+        if (error.response.status === 400) {
+          alert("Log in expired, please log in again.");
+        }
+      });
   };
   return (
     <div className="makePostContainer">
