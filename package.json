@@ -32,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/Joey-Red/blogApi/issues"
   },
-  "homepage": "https://github.com/Joey-Red/blogApi#readme"
+  "homepage": "https://github.com/Joey-Red/blogApi#readme",
+  "dependencies": {
+    "memorystore": "^1.6.7"
+  }
 }

@@ -7,6 +7,8 @@ const helmet = require("helmet");
 const compression = require("compression");
 const routeConfig = require("./routes/routes");
 const cors = require("cors");
+const MemoryStore = require("memorystore")(session);
+
 const app = express();
 
 // Connect To DB
@@ -30,7 +32,19 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet());
-app.use(session({ secret: "dogs", resave: false, saveUninitialized: true }));
+// app.use(session({ secret: "dogs", resave: false, saveUninitialized: true }));
+
+app.use(
+  session({
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000, // prune expired entries every 24h
+    }),
+    resave: false,
+    secret: "dogs",
+  })
+);
+
 // app.use(passport.initialize());
 // app.use(passport.session());
 app.use(compression());
