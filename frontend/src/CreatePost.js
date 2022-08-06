@@ -36,7 +36,11 @@ function CreatePost(props) {
         window.location.href = "/signIn";
       })
       .catch(function (error) {
-        if (error.response.status === 400) {
+        if (
+          error.response.status === 400 ||
+          error.response.status === 403 ||
+          error.response.status === 401
+        ) {
           alert("Log in expired, please log in again.");
         }
       });

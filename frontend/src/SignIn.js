@@ -32,7 +32,11 @@ function SignIn() {
         window.location.href = "/createPost";
       })
       .catch(function (error) {
-        if (error.response.status === 400) {
+        if (
+          error.response.status === 400 ||
+          error.response.status === 403 ||
+          error.response.status === 401
+        ) {
           document.getElementById("badLogin").style.display = "flex";
         }
       });
